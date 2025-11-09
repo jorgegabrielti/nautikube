@@ -1,0 +1,13 @@
+﻿FROM golang:1.23-alpine AS builder
+
+WORKDIR /build
+RUN apk add --no-cache git make
+RUN git clone https://github.com/k8sgpt-ai/k8sgpt.git .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o k8sgpt .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+COPY --from=builder /build/k8sgpt /usr/local/bin/k8sgpt
+COPY entrypoint.sh /entrypoint.sh
+RUN mkdir -p /root/.kube && chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

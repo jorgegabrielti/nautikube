@@ -1,0 +1,62 @@
+# Docker
+docker-compose.override.yml
+.env
+.env.local
+
+# Volumes (dados locais)
+*.log
+.DS_Store
+
+# IDE / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Backup files
+*.bak
+*.tmp
+*.temp
+
+# Git
+*.orig
+
+# Kubernetes
+kubeconfig
+*.kubeconfig
+.kube/
+
+# Terraform / IaC (se adicionar no futuro)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Secrets (nunca commitar)
+secrets/
+*.key
+*.pem
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# Python (se adicionar scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+ENV/
+env/
+
+# Node (se adicionar frontend)
+node_modules/
+npm-debug.log
+yarn-error.log

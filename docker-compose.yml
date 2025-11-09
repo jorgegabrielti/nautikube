@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: mekhanikube-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - mekhanikube-ollama-data:/root/.ollama
+    restart: unless-stopped
+
+  k8sgpt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mekhanikube-k8sgpt
+    depends_on:
+      - ollama
+    volumes:
+      - C:/Users/${USERNAME}/.kube/config:/root/.kube/config:ro
+      - mekhanikube-k8sgpt-config:/root/.config/k8sgpt
+    environment:
+      - KUBECONFIG=/root/.kube/config_mod
+    network_mode: host
+
+volumes:
+  mekhanikube-ollama-data:
+  mekhanikube-k8sgpt-config:
+
