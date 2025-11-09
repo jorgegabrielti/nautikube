@@ -98,11 +98,11 @@ docker exec mekhanikube-ollama ollama run mistral
 Sim! Use filtros:
 
 ```bash
-# Analisar apenas Pods
-docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain
+# Analisar apenas Pods (em português)
+docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain --language Portuguese
 
-# Analisar apenas Services
-docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Service --explain
+# Analisar apenas Services (em português)
+docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Service --explain --language Portuguese
 
 # Listar todos os filtros
 docker exec mekhanikube-k8sgpt k8sgpt filters list
@@ -111,8 +111,10 @@ docker exec mekhanikube-k8sgpt k8sgpt filters list
 Ou namespaces específicos:
 
 ```bash
-docker exec mekhanikube-k8sgpt k8sgpt analyze --namespace production --explain
+docker exec mekhanikube-k8sgpt k8sgpt analyze --namespace production --explain --language Portuguese
 ```
+
+> 💡 Use `--language Portuguese` para obter análises em português. Sem essa flag, as respostas virão em inglês.
 
 ### Que tipos de problemas ele pode detectar?
 
@@ -167,13 +169,29 @@ k8s-analysis:
       - report.txt
 ```
 
+### As análises são sempre em português?
+
+Não por padrão. Para obter análises em português, use a flag `--language Portuguese`:
+
+```bash
+# Análise em português (recomendado)
+docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --language Portuguese
+
+# Análise em inglês (padrão)
+docker exec mekhanikube-k8sgpt k8sgpt analyze --explain
+```
+
+**Idiomas suportados**: English, Spanish, French, German, Italian, Portuguese, Dutch, Russian, Chinese, Japanese, Korean
+
+> ⭐ O modelo **llama3.1:8b** oferece excelente qualidade em português brasileiro!
+
 ### Posso exportar resultados?
 
 Sim, use as opções de saída do K8sGPT:
 
 ```bash
-# Formato JSON
-docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --output json
+# Formato JSON (em português)
+docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --output json --language Portuguese
 
 # Salvar em arquivo
 docker exec mekhanikube-k8sgpt k8sgpt analyze --explain > analysis.txt

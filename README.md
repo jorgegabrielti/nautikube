@@ -60,7 +60,7 @@ docker exec mekhanikube-k8sgpt k8sgpt auth add --backend ollama --model llama3.1
 docker exec mekhanikube-k8sgpt k8sgpt auth default -p ollama
 
 # 5. Analisar cluster
-docker exec mekhanikube-k8sgpt k8sgpt analyze --explain
+docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --language Portuguese
 ```
 
 ---
@@ -68,14 +68,17 @@ docker exec mekhanikube-k8sgpt k8sgpt analyze --explain
 ##  Comandos Úteis
 
 ```bash
-# Análise completa
+# Análise completa em português
+docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --language Portuguese
+
+# Análise completa (inglês)
 docker exec mekhanikube-k8sgpt k8sgpt analyze --explain
 
 # Analisar namespace específico
-docker exec mekhanikube-k8sgpt k8sgpt analyze -n kube-system --explain
+docker exec mekhanikube-k8sgpt k8sgpt analyze -n kube-system --explain --language Portuguese
 
 # Filtrar por tipo (Pod, Service, Deployment, etc)
-docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain
+docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain --language Portuguese
 
 # Listar modelos instalados
 docker exec mekhanikube-ollama ollama list
