@@ -52,10 +52,14 @@ cd mekhanikube
 # 2. Inicie os serviços
 docker-compose up -d
 
-# 3. Baixe o modelo de IA (primeira vez - ~5GB)
-docker exec mekhanikube-ollama ollama pull gemma:7b
+# 3. Baixe o modelo de IA (primeira vez - ~4.7GB)
+docker exec mekhanikube-ollama ollama pull llama3.1:8b
 
-# 4. Analisar cluster
+# 4. Configure o backend
+docker exec mekhanikube-k8sgpt k8sgpt auth add --backend ollama --model llama3.1:8b --baseurl http://localhost:11434
+docker exec mekhanikube-k8sgpt k8sgpt auth default -p ollama
+
+# 5. Analisar cluster
 docker exec mekhanikube-k8sgpt k8sgpt analyze --explain
 ```
 
@@ -84,21 +88,24 @@ docker-compose ps
 
 ##  Modelos Disponíveis
 
-| Modelo | Tamanho | Velocidade | Qualidade | Recomendado para |
-|--------|---------|------------|-----------|------------------|
-| **gemma:7b** | 4.8GB | Médio | Boa | Uso geral  |
-| **mistral** | 4.1GB | Médio | Boa | Explicações detalhadas |
-| **tinyllama** | 1.1GB | Rápido | Básica | Scans rápidos |
-| **llama2:13b** | 7.4GB | Lento | Excelente | Melhor qualidade |
+| Modelo | Tamanho | Velocidade | Qualidade | Português | Recomendado para |
+|--------|---------|------------|-----------|-----------|------------------|
+| **llama3.1:8b** ⭐ | 4.7GB | Bom | Excelente | ⭐⭐⭐⭐⭐ | **Recomendado (PT-BR)** |
+| **gemma2:9b** | 5.4GB | Médio | Excelente | ⭐⭐⭐⭐⭐ | Melhor qualidade |
+| **qwen2.5:7b** | 4.7GB | Rápido | Muito Boa | ⭐⭐⭐⭐ | Velocidade |
+| **mistral** | 4.1GB | Médio | Boa | ⭐⭐⭐ | Uso geral |
+| **tinyllama** | 1.1GB | Muito Rápido | Básica | ⭐⭐ | Scans rápidos |
+
+> 💡 **llama3.1:8b** é o modelo padrão por oferecer excelente suporte ao português brasileiro
 
 **Trocar modelo:**
 ```bash
 # Instalar outro modelo
-docker exec mekhanikube-ollama ollama pull mistral
+docker exec mekhanikube-ollama ollama pull gemma2:9b
 
 # Reconfigurar K8sGPT
 docker exec mekhanikube-k8sgpt k8sgpt auth remove --backend ollama
-docker exec mekhanikube-k8sgpt k8sgpt auth add --backend ollama --model mistral --baseurl http://localhost:11434
+docker exec mekhanikube-k8sgpt k8sgpt auth add --backend ollama --model gemma2:9b --baseurl http://localhost:11434
 docker exec mekhanikube-k8sgpt k8sgpt auth default -p ollama
 ```
 

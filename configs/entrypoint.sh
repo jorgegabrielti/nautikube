@@ -15,7 +15,7 @@ if ! k8sgpt auth list | grep -A1 "Active:" | grep -q "ollama"; then
     k8sgpt auth remove --backend ollama 2>/dev/null || true
     
     # Adiciona backend Ollama e configura como padrão
-    k8sgpt auth add --backend ollama --model gemma:7b --baseurl http://localhost:11434
+    k8sgpt auth add --backend ollama --model llama3.1:8b --baseurl http://localhost:11434
     k8sgpt auth default -p ollama
     echo "K8sGPT configurado!"
 else

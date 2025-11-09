@@ -62,14 +62,15 @@ Sim! Mekhanikube funciona com:
 
 ### Qual modelo de IA devo usar?
 
-| Modelo | Melhor Para | Velocidade | Qualidade | Tamanho |
-|--------|-------------|------------|-----------|---------|
-| **gemma:7b** | Balanceado (recomendado) | Média | Boa | 4.8GB |
-| **mistral** | Boas explicações | Média | Boa | 4.1GB |
-| **tinyllama** | Varreduras rápidas | Rápida | Básica | 1.1GB |
-| **llama2:13b** | Melhor qualidade | Lenta | Excelente | 7.4GB |
+| Modelo | Melhor Para | Velocidade | Qualidade | Português | Tamanho |
+|--------|-------------|------------|-----------|-----------|---------|
+| **llama3.1:8b** ⭐ | **Recomendado (PT-BR)** | Boa | Excelente | ⭐⭐⭐⭐⭐ | 4.7GB |
+| **gemma2:9b** | Melhor qualidade | Média | Excelente | ⭐⭐⭐⭐⭐ | 5.4GB |
+| **qwen2.5:7b** | Velocidade | Rápida | Muito Boa | ⭐⭐⭐⭐ | 4.7GB |
+| **mistral** | Uso geral | Média | Boa | ⭐⭐⭐ | 4.1GB |
+| **tinyllama** | Varreduras rápidas | Muito Rápida | Básica | ⭐⭐ | 1.1GB |
 
-Comece com `gemma:7b` - oferece o melhor equilíbrio.
+Comece com `llama3.1:8b` - oferece excelente suporte ao português brasileiro.
 
 ### Posso usar múltiplos modelos?
 

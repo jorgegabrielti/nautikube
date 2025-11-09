@@ -32,7 +32,7 @@ services:
     environment:
       - KUBECONFIG=/root/.kube/config_mod
       - K8SGPT_BACKEND=${K8SGPT_BACKEND:-ollama}
-      - K8SGPT_MODEL=${OLLAMA_MODEL:-gemma:7b}
+      - K8SGPT_MODEL=${OLLAMA_MODEL:-llama3.1:8b}
       - LOG_LEVEL=${LOG_LEVEL:-info}
     network_mode: ${NETWORK_MODE:-host}
     restart: ${RESTART_POLICY:-unless-stopped}
