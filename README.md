@@ -4,13 +4,13 @@
 
 **Seu mecânico de Kubernetes com IA**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/jorgegabrielti/mekhanikube/releases)
+[![Licença: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-1.0.0-blue.svg)](https://github.com/jorgegabrielti/mekhanikube/releases)
 
 Análise inteligente de clusters Kubernetes usando **K8sGPT** + **Ollama**  
-Totalmente local  Privado  Fácil de usar
+Totalmente local • Privado • Fácil de usar
 
-[Começar](#-início-rápido)  [Documentação](docs/)  [Contribuir](CONTRIBUTING.md)
+[Começar](#-início-rápido) • [Documentação](docs/) • [Contribuir](CONTRIBUTING.md)
 
 </div>
 
@@ -127,23 +127,23 @@ docker exec mekhanikube-k8sgpt cat /root/.kube/config_mod
 
 ##  Documentação
 
--  [Arquitetura](docs/ARCHITECTURE.md) - Como funciona
--  [Troubleshooting](docs/TROUBLESHOOTING.md) - Problemas comuns
--  [FAQ](docs/FAQ.md) - Perguntas frequentes
--  [Contribuindo](CONTRIBUTING.md) - Como contribuir
+-  [Arquitetura](docs/ARCHITECTURE.md) - Como funciona internamente
+-  [Solução de Problemas](docs/TROUBLESHOOTING.md) - Problemas comuns e soluções
+-  [Perguntas Frequentes](docs/FAQ.md) - Dúvidas mais comuns
+-  [Como Contribuir](CONTRIBUTING.md) - Guia para contribuições
 
 ---
 
 ##  Licença
 
-MIT License - veja [LICENSE](LICENSE) para detalhes.
+Licença MIT - consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
 ##  Créditos
 
-- [K8sGPT](https://github.com/k8sgpt-ai/k8sgpt) - Análise de Kubernetes
-- [Ollama](https://ollama.ai/) - LLM local
+- [K8sGPT](https://github.com/k8sgpt-ai/k8sgpt) - Ferramenta de análise de clusters Kubernetes
+- [Ollama](https://ollama.ai/) - Plataforma de modelos de linguagem locais
 
 ---
 
