@@ -1,329 +1,334 @@
-# Frequently Asked Questions (FAQ)
+# Perguntas Frequentes (FAQ)
 
-## General Questions
+## Questões Gerais
 
-### What is Mekhanikube?
+### O que é o Mekhanikube?
 
-Mekhanikube is a containerized solution that combines K8sGPT and Ollama to provide AI-powered analysis of Kubernetes clusters. It identifies issues, explains their causes, and suggests solutions using local LLM models.
+Mekhanikube é uma solução containerizada que combina K8sGPT e Ollama para fornecer análise alimentada por IA de clusters Kubernetes. Ele identifica problemas, explica suas causas e sugere soluções usando modelos LLM locais.
 
-### Why "Mekhanikube"?
+### Por que "Mekhanikube"?
 
-**Mekhani** (Greek: μηχανικός) = mechanic + **kube** (Kubernetes) = Your Kubernetes mechanic!
+**Mekhani** (Grego: μηχανικός) = mecânico + **kube** (Kubernetes) = Seu mecânico Kubernetes!
 
-### Is it free?
+### É gratuito?
 
-Yes! Mekhanikube is open-source under the MIT License. All components (K8sGPT, Ollama) are also free and open-source.
+Sim! Mekhanikube é código aberto sob a Licença MIT. Todos os componentes (K8sGPT, Ollama) também são gratuitos e de código aberto.
 
-### Does it send my data anywhere?
+### Ele envia meus dados para algum lugar?
 
-No! Everything runs locally on your machine. Your cluster data never leaves your infrastructure. No telemetry, no external API calls.
+Não! Tudo roda localmente na sua máquina. Os dados do seu cluster nunca saem da sua infraestrutura. Sem telemetria, sem chamadas de API externas.
 
 ---
 
-## Installation & Setup
+## Instalação & Configuração
 
-### What are the system requirements?
+### Quais são os requisitos do sistema?
 
-**Minimum**:
+**Mínimo**:
 - Docker & Docker Compose
-- 2 CPU cores
+- 2 núcleos de CPU
 - 4GB RAM
-- 10GB disk space
-- Active Kubernetes cluster
+- 10GB de espaço em disco
+- Cluster Kubernetes ativo
 
-**Recommended**:
-- 4+ CPU cores
+**Recomendado**:
+- 4+ núcleos de CPU
 - 8GB+ RAM
-- 20GB+ disk space
+- 20GB+ de espaço em disco
 
-### What operating systems are supported?
+### Quais sistemas operacionais são suportados?
 
-- ✅ Windows 10/11 (with Docker Desktop)
+- ✅ Windows 10/11 (com Docker Desktop)
 - ✅ macOS (Intel & Apple Silicon)
-- ✅ Linux (any distribution with Docker)
+- ✅ Linux (qualquer distribuição com Docker)
 
-### Can I use it with any Kubernetes cluster?
+### Posso usar com qualquer cluster Kubernetes?
 
-Yes! Mekhanikube works with:
-- Local clusters (Docker Desktop, Minikube, Kind)
-- Cloud clusters (EKS, GKE, AKS)
-- On-premise clusters
-- Any cluster accessible via kubeconfig
+Sim! Mekhanikube funciona com:
+- Clusters locais (Docker Desktop, Minikube, Kind)
+- Clusters na nuvem (EKS, GKE, AKS)
+- Clusters on-premise
+- Qualquer cluster acessível via kubeconfig
 
-### How long does setup take?
+### Quanto tempo leva a configuração?
 
-- First time: ~15-20 minutes (including model download)
-- Subsequent starts: ~30 seconds
-- Model changes: ~5-10 minutes per model
+- Primeira vez: ~15-20 minutos (incluindo download do modelo)
+- Inicializações subsequentes: ~30 segundos
+- Mudanças de modelo: ~5-10 minutos por modelo
 
 ---
 
-## Usage Questions
+## Questões de Uso
 
-### Which AI model should I use?
+### Qual modelo de IA devo usar?
 
-| Model | Best For | Speed | Quality | Size |
-|-------|----------|-------|---------|------|
-| **gemma:7b** | Balanced (recommended) | Medium | Good | 4.8GB |
-| **mistral** | Good explanations | Medium | Good | 4.1GB |
-| **tinyllama** | Quick scans | Fast | Basic | 1.1GB |
-| **llama2:13b** | Best quality | Slow | Excellent | 7.4GB |
+| Modelo | Melhor Para | Velocidade | Qualidade | Tamanho |
+|--------|-------------|------------|-----------|---------|
+| **gemma:7b** | Balanceado (recomendado) | Média | Boa | 4.8GB |
+| **mistral** | Boas explicações | Média | Boa | 4.1GB |
+| **tinyllama** | Varreduras rápidas | Rápida | Básica | 1.1GB |
+| **llama2:13b** | Melhor qualidade | Lenta | Excelente | 7.4GB |
 
-Start with `gemma:7b` - it offers the best balance.
+Comece com `gemma:7b` - oferece o melhor equilíbrio.
 
-### Can I use multiple models?
+### Posso usar múltiplos modelos?
 
-Yes! Install multiple models and switch between them:
-
-```bash
-# Install additional models
-make install-model MODEL=mistral
-make install-model MODEL=tinyllama
-
-# Switch active model
-make change-model MODEL=mistral
-```
-
-### How often should I run analysis?
-
-**Recommended schedule**:
-- **After deployments**: Check for issues immediately
-- **Daily**: Routine health checks
-- **Before releases**: Validate cluster state
-- **When alerts fire**: Investigate root cause
-
-### Can I analyze only specific resources?
-
-Yes! Use filters:
+Sim! Instale múltiplos modelos e alterne entre eles:
 
 ```bash
-make analyze-pods        # Only Pods
-make analyze-services    # Only Services
-make filters             # List all filters
+# Instalar modelos adicionais
+docker exec mekhanikube-ollama ollama pull mistral
+docker exec mekhanikube-ollama ollama pull tinyllama
+
+# Trocar modelo ativo
+docker exec mekhanikube-ollama ollama run mistral
 ```
 
-Or specific namespaces:
+### Com que frequência devo executar a análise?
+
+**Cronograma recomendado**:
+- **Após deployments**: Verificar problemas imediatamente
+- **Diariamente**: Verificações rotineiras de saúde
+- **Antes de releases**: Validar estado do cluster
+- **Quando alertas disparam**: Investigar causa raiz
+
+### Posso analisar apenas recursos específicos?
+
+Sim! Use filtros:
 
 ```bash
-make analyze-ns NAMESPACE=production
+# Analisar apenas Pods
+docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain
+
+# Analisar apenas Services
+docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Service --explain
+
+# Listar todos os filtros
+docker exec mekhanikube-k8sgpt k8sgpt filters list
 ```
 
-### What types of issues can it detect?
+Ou namespaces específicos:
 
-K8sGPT analyzes:
+```bash
+docker exec mekhanikube-k8sgpt k8sgpt analyze --namespace production --explain
+```
+
+### Que tipos de problemas ele pode detectar?
+
+K8sGPT analisa:
 - **Pods**: CrashLoopBackOff, ImagePullBackOff, OOMKilled
-- **Services**: Endpoint issues, selector mismatches
-- **Deployments**: Replica issues, update problems
-- **PVCs**: Binding failures, storage issues
-- **Ingress**: Configuration errors
-- **StatefulSets**: Ordering issues
-- **HPA**: Scaling problems
-- And more!
+- **Services**: Problemas de endpoint, incompatibilidades de seletor
+- **Deployments**: Problemas de réplica, problemas de atualização
+- **PVCs**: Falhas de vinculação, problemas de armazenamento
+- **Ingress**: Erros de configuração
+- **StatefulSets**: Problemas de ordenação
+- **HPA**: Problemas de escalonamento
+- E mais!
 
 ---
 
-## Technical Questions
+## Questões Técnicas
 
-### How does it work?
+### Como funciona?
 
-1. K8sGPT scans your Kubernetes cluster via the Kubernetes API
-2. Built-in analyzers identify problems (e.g., pod not starting)
-3. K8sGPT sends the problem context to Ollama
-4. Ollama's LLM generates a human-readable explanation
-5. Results are displayed with problem description, AI explanation, and suggested fixes
+1. K8sGPT escaneia seu cluster Kubernetes via API Kubernetes
+2. Analisadores integrados identificam problemas (ex: pod não iniciando)
+3. K8sGPT envia o contexto do problema para o Ollama
+4. O LLM do Ollama gera uma explicação legível para humanos
+5. Resultados são exibidos com descrição do problema, explicação da IA e correções sugeridas
 
-### Does it modify my cluster?
+### Ele modifica meu cluster?
 
-**No!** Mekhanikube is read-only. It:
-- ✅ Reads cluster state
-- ✅ Analyzes configurations
-- ✅ Generates reports
-- ❌ Never makes changes
-- ❌ Never deletes resources
-- ❌ Never applies configurations
+**Não!** Mekhanikube é somente leitura. Ele:
+- ✅ Lê o estado do cluster
+- ✅ Analisa configurações
+- ✅ Gera relatórios
+- ❌ Nunca faz mudanças
+- ❌ Nunca deleta recursos
+- ❌ Nunca aplica configurações
 
-### What permissions does it need?
+### Quais permissões ele precisa?
 
-K8sGPT requires **read-only** access to cluster resources. The same permissions as `kubectl get` commands.
+K8sGPT requer acesso **somente leitura** aos recursos do cluster. As mesmas permissões dos comandos `kubectl get`.
 
-### Can I run it in CI/CD?
+### Posso executar em CI/CD?
 
-Yes! Example:
+Sim! Exemplo:
 
 ```yaml
 # GitLab CI
 k8s-analysis:
   script:
-    - make setup
-    - make analyze > report.txt
+    - docker-compose up -d
+    - docker exec mekhanikube-k8sgpt k8sgpt analyze --explain > report.txt
   artifacts:
     paths:
       - report.txt
 ```
 
-### Can I export results?
+### Posso exportar resultados?
 
-Yes, use K8sGPT's output options:
+Sim, use as opções de saída do K8sGPT:
 
 ```bash
-# JSON format
+# Formato JSON
 docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --output json
 
-# Save to file
+# Salvar em arquivo
 docker exec mekhanikube-k8sgpt k8sgpt analyze --explain > analysis.txt
 ```
 
 ---
 
-## Troubleshooting
+## Solução de Problemas
 
-### Why is it slow?
+### Por que está lento?
 
-**Possible causes**:
-1. **Large model**: Try `tinyllama` for faster responses
-2. **Many resources**: Use filters or namespace scoping
-3. **Limited RAM**: Allocate more memory to Docker
-4. **CPU bottleneck**: Close other applications
+**Possíveis causas**:
+1. **Modelo grande**: Tente `tinyllama` para respostas mais rápidas
+2. **Muitos recursos**: Use filtros ou escopo de namespace
+3. **RAM limitada**: Aloque mais memória para o Docker
+4. **Gargalo de CPU**: Feche outras aplicações
 
-**Optimization**:
+**Otimização**:
 ```bash
-# Use smaller model
-make change-model MODEL=tinyllama
+# Usar modelo menor
+docker exec mekhanikube-ollama ollama pull tinyllama
 
-# Limit scope
-make analyze-ns NAMESPACE=default
-make analyze-pods
+# Limitar escopo
+docker exec mekhanikube-k8sgpt k8sgpt analyze --namespace default --explain
+docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain
 ```
 
-### It says "no issues found" but I know there are problems
+### Diz "nenhum problema encontrado" mas sei que há problemas
 
-1. **Check namespace**: Default is all namespaces
+1. **Verificar namespace**: Padrão é todos os namespaces
    ```bash
-   make analyze-ns NAMESPACE=your-namespace
+   docker exec mekhanikube-k8sgpt k8sgpt analyze --namespace seu-namespace --explain
    ```
 
-2. **Try different filters**: Some issues need specific analyzers
+2. **Tentar filtros diferentes**: Alguns problemas precisam de analisadores específicos
    ```bash
-   make filters
-   make analyze-pods
+   docker exec mekhanikube-k8sgpt k8sgpt filters list
+   docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain
    ```
 
-3. **Verify cluster access**:
+3. **Verificar acesso ao cluster**:
    ```bash
    docker exec mekhanikube-k8sgpt kubectl get pods --all-namespaces
    ```
 
-### Ollama keeps downloading models
+### Ollama continua baixando modelos
 
-Models are stored in Docker volumes. If you run `make clean-models` or `docker-compose down -v`, models are deleted.
+Modelos são armazenados em volumes Docker. Se você executar `docker-compose down -v`, modelos são deletados.
 
-**Preserve models**:
+**Preservar modelos**:
 ```bash
-# Stop without removing volumes
-make down
+# Parar sem remover volumes
+docker-compose down
 
-# Or only restart
-make restart
+# Ou apenas reiniciar
+docker-compose restart
 ```
 
-### Can I use an external Ollama instance?
+### Posso usar uma instância Ollama externa?
 
-Yes! Modify `docker-compose.yml`:
+Sim! Modifique o `docker-compose.yml`:
 
 ```yaml
 k8sgpt:
   environment:
-    - OLLAMA_BASEURL=http://your-ollama-server:11434
+    - OLLAMA_BASEURL=http://seu-servidor-ollama:11434
 ```
 
-Then remove the Ollama service definition.
+Então remova a definição do serviço Ollama.
 
 ---
 
-## Advanced Usage
+## Uso Avançado
 
-### Can I customize K8sGPT analyzers?
+### Posso personalizar os analisadores do K8sGPT?
 
-K8sGPT uses built-in analyzers. To enable/disable:
+K8sGPT usa analisadores integrados. Para habilitar/desabilitar:
 
 ```bash
-# List available filters
-make filters
+# Listar filtros disponíveis
+docker exec mekhanikube-k8sgpt k8sgpt filters list
 
-# Use specific filters
+# Usar filtros específicos
 docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod,Service --explain
 ```
 
-### Can I use a different LLM backend?
+### Posso usar um backend LLM diferente?
 
-Yes! K8sGPT supports:
-- Ollama (local) - default
-- OpenAI (cloud)
-- Azure OpenAI (cloud)
-- LocalAI (local alternative)
+Sim! K8sGPT suporta:
+- Ollama (local) - padrão
+- OpenAI (nuvem)
+- Azure OpenAI (nuvem)
+- LocalAI (alternativa local)
 
-Example for OpenAI:
+Exemplo para OpenAI:
 ```bash
 docker exec mekhanikube-k8sgpt k8sgpt auth add \
   --backend openai \
   --model gpt-4 \
-  --password YOUR_API_KEY
+  --password SUA_API_KEY
 ```
 
-### How do I backup my configuration?
+### Como faço backup da minha configuração?
 
 ```bash
-# Backup Ollama models
+# Backup dos modelos Ollama
 docker run --rm \
   -v mekhanikube-ollama-data:/data \
-  -v $(pwd):/backup \
+  -v ${PWD}:/backup \
   alpine tar czf /backup/ollama-backup.tar.gz /data
 
-# Backup K8sGPT config
+# Backup da config K8sGPT
 docker run --rm \
   -v mekhanikube-k8sgpt-config:/data \
-  -v $(pwd):/backup \
+  -v ${PWD}:/backup \
   alpine tar czf /backup/k8sgpt-backup.tar.gz /data
 ```
 
-### Can I run multiple instances?
+### Posso executar múltiplas instâncias?
 
-Yes, but change container names to avoid conflicts:
+Sim, mas altere os nomes dos contêineres para evitar conflitos:
 
 ```bash
-# In .env file
+# No arquivo .env
 CONTAINER_NAME_OLLAMA=mekhanikube-ollama-2
 CONTAINER_NAME_K8SGPT=mekhanikube-k8sgpt-2
 OLLAMA_PORT=11435
 ```
 
-### How do I update to the latest version?
+### Como atualizo para a versão mais recente?
 
 ```bash
-# Pull latest code
+# Puxar código mais recente
 git pull origin main
 
-# Rebuild containers
-make build
+# Reconstruir contêineres
+docker-compose build
 
-# Restart services
-make restart
+# Reiniciar serviços
+docker-compose restart
 ```
 
 ---
 
-## Performance & Optimization
+## Performance & Otimização
 
-### How much disk space do I need?
+### Quanto espaço em disco preciso?
 
-- **Base installation**: ~500MB (containers)
-- **Per model**: 1-10GB depending on model
-- **Logs**: ~100MB (grows over time)
-- **Recommendation**: 20GB free space
+- **Instalação base**: ~500MB (contêineres)
+- **Por modelo**: 1-10GB dependendo do modelo
+- **Logs**: ~100MB (cresce com o tempo)
+- **Recomendação**: 20GB de espaço livre
 
-### Can I limit resource usage?
+### Posso limitar o uso de recursos?
 
-Yes! Edit `docker-compose.yml`:
+Sim! Edite o `docker-compose.yml`:
 
 ```yaml
 services:
@@ -335,20 +340,20 @@ services:
           memory: 4G
 ```
 
-### Which model is fastest?
+### Qual modelo é mais rápido?
 
-Speed ranking (fastest to slowest):
-1. `tinyllama` - ~2-5 seconds per explanation
-2. `gemma:7b` - ~5-10 seconds per explanation
-3. `mistral` - ~8-15 seconds per explanation
-4. `llama2:13b` - ~15-30 seconds per explanation
+Ranking de velocidade (mais rápido para mais lento):
+1. `tinyllama` - ~2-5 segundos por explicação
+2. `gemma:7b` - ~5-10 segundos por explicação
+3. `mistral` - ~8-15 segundos por explicação
+4. `llama2:13b` - ~15-30 segundos por explicação
 
-### Can I use GPU acceleration?
+### Posso usar aceleração GPU?
 
-Yes, if you have NVIDIA GPU:
+Sim, se você tiver GPU NVIDIA:
 
-1. Install [NVIDIA Container Toolkit](https://github.com/NVIDIA/nvidia-docker)
-2. Modify `docker-compose.yml`:
+1. Instale o [NVIDIA Container Toolkit](https://github.com/NVIDIA/nvidia-docker)
+2. Modifique o `docker-compose.yml`:
 
 ```yaml
 services:
@@ -364,128 +369,128 @@ services:
 
 ---
 
-## Security & Privacy
+## Segurança & Privacidade
 
-### Is my kubeconfig safe?
+### Meu kubeconfig está seguro?
 
-Yes:
-- Mounted as **read-only** in container
-- Never modified or exposed
-- Only used for API access
-- Container is isolated
+Sim:
+- Montado como **somente leitura** no contêiner
+- Nunca modificado ou exposto
+- Usado apenas para acesso à API
+- Contêiner está isolado
 
-### What data is collected?
+### Quais dados são coletados?
 
-**None!** Mekhanikube:
-- ❌ No telemetry
-- ❌ No analytics
-- ❌ No external connections (except model downloads)
-- ❌ No data sharing
+**Nenhum!** Mekhanikube:
+- ❌ Sem telemetria
+- ❌ Sem analytics
+- ❌ Sem conexões externas (exceto downloads de modelos)
+- ❌ Sem compartilhamento de dados
 
-### Can I use it in production?
+### Posso usar em produção?
 
-Yes, but:
-- ✅ It's read-only (safe)
-- ✅ No cluster modifications
-- ⚠️ Ensure adequate resources
-- ⚠️ Test in dev/staging first
-- ⚠️ Monitor resource usage
+Sim, mas:
+- ✅ É somente leitura (seguro)
+- ✅ Sem modificações no cluster
+- ⚠️ Garanta recursos adequados
+- ⚠️ Teste em dev/staging primeiro
+- ⚠️ Monitore o uso de recursos
 
-### Should I commit my .env file?
+### Devo fazer commit do meu arquivo .env?
 
-**NO!** The `.env` file may contain sensitive information. It's already in `.gitignore`.
-
----
-
-## Contributing & Support
-
-### How can I contribute?
-
-See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
-- Reporting bugs
-- Suggesting features
-- Submitting pull requests
-- Improving documentation
-
-### Where do I report bugs?
-
-Open an issue on [GitHub Issues](https://github.com/jorgegabrielti/mekhanikube/issues) with:
-- OS and Docker version
-- Output of `make health`
-- Steps to reproduce
-- Error messages/logs
-
-### Can I request new features?
-
-Yes! Open a GitHub Issue with:
-- Feature description
-- Use case
-- Expected behavior
-- Example usage
-
-### How do I get help?
-
-1. Check this FAQ
-2. Read [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
-3. Search [existing issues](https://github.com/jorgegabrielti/mekhanikube/issues)
-4. Open a new issue
-5. Join discussions
+**NÃO!** O arquivo `.env` pode conter informações sensíveis. Já está no `.gitignore`.
 
 ---
 
-## Roadmap & Future
+## Contribuindo & Suporte
 
-### What's planned for future versions?
+### Como posso contribuir?
 
-- Web UI dashboard
-- Slack/Teams integrations
-- Custom analyzer plugins
-- Historical analysis tracking
-- Kubernetes operator mode
-- Multi-cluster support
+Veja [CONTRIBUTING.md](../CONTRIBUTING.md) para:
+- Reportar bugs
+- Sugerir funcionalidades
+- Enviar pull requests
+- Melhorar a documentação
 
-### Can I sponsor the project?
+### Onde reporto bugs?
 
-Not yet, but stay tuned! Meanwhile, contributions and GitHub stars are appreciated! ⭐
+Abra uma issue no [GitHub Issues](https://github.com/jorgegabrielti/mekhanikube/issues) com:
+- SO e versão do Docker
+- Saída de `docker-compose ps`
+- Passos para reproduzir
+- Mensagens de erro/logs
+
+### Posso solicitar novas funcionalidades?
+
+Sim! Abra uma GitHub Issue com:
+- Descrição da funcionalidade
+- Caso de uso
+- Comportamento esperado
+- Exemplo de uso
+
+### Como obtenho ajuda?
+
+1. Verifique este FAQ
+2. Leia [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+3. Pesquise [issues existentes](https://github.com/jorgegabrielti/mekhanikube/issues)
+4. Abra uma nova issue
+5. Participe das discussões
 
 ---
 
-## Comparison with Other Tools
+## Roadmap & Futuro
+
+### O que está planejado para versões futuras?
+
+- Dashboard Web UI
+- Integrações Slack/Teams
+- Plugins de analisador customizados
+- Rastreamento de análise histórica
+- Modo operador Kubernetes
+- Suporte multi-cluster
+
+### Posso patrocinar o projeto?
+
+Ainda não, mas fique ligado! Enquanto isso, contribuições e estrelas no GitHub são apreciadas! ⭐
+
+---
+
+## Comparação com Outras Ferramentas
 
 ### Mekhanikube vs kubectl
 
-- **kubectl**: Low-level commands, manual interpretation
-- **Mekhanikube**: Automated analysis with AI explanations
+- **kubectl**: Comandos de baixo nível, interpretação manual
+- **Mekhanikube**: Análise automatizada com explicações de IA
 
 ### Mekhanikube vs K9s
 
-- **K9s**: Interactive TUI for cluster management
-- **Mekhanikube**: Automated problem detection with AI
+- **K9s**: TUI interativa para gerenciamento de cluster
+- **Mekhanikube**: Detecção automatizada de problemas com IA
 
 ### Mekhanikube vs Lens
 
-- **Lens**: GUI desktop IDE for Kubernetes
-- **Mekhanikube**: CLI tool with AI analysis
+- **Lens**: IDE desktop GUI para Kubernetes
+- **Mekhanikube**: Ferramenta CLI com análise de IA
 
 ### Mekhanikube vs Prometheus/Grafana
 
-- **Prometheus/Grafana**: Metrics and monitoring
-- **Mekhanikube**: Issue detection and explanation
+- **Prometheus/Grafana**: Métricas e monitoramento
+- **Mekhanikube**: Detecção e explicação de problemas
 
-**They complement each other!** Use Mekhanikube for diagnostics alongside your existing tools.
-
----
-
-## Additional Resources
-
-- 📖 [Architecture Documentation](ARCHITECTURE.md)
-- 🔧 [Troubleshooting Guide](TROUBLESHOOTING.md)
-- 🤝 [Contributing Guidelines](../CONTRIBUTING.md)
-- 📝 [Changelog](../CHANGELOG.md)
-- 🐙 [GitHub Repository](https://github.com/jorgegabrielti/mekhanikube)
-- 🔗 [K8sGPT Documentation](https://docs.k8sgpt.ai/)
-- 🦙 [Ollama Documentation](https://github.com/ollama/ollama)
+**Eles se complementam!** Use Mekhanikube para diagnósticos junto com suas ferramentas existentes.
 
 ---
 
-**Didn't find your answer?** Open an issue on GitHub!
+## Recursos Adicionais
+
+- 📖 [Documentação de Arquitetura](ARCHITECTURE.md)
+- 🔧 [Guia de Solução de Problemas](TROUBLESHOOTING.md)
+- 🤝 [Diretrizes de Contribuição](../CONTRIBUTING.md)
+- 📝 [Histórico de Mudanças](../CHANGELOG.md)
+- 🐙 [Repositório GitHub](https://github.com/jorgegabrielti/mekhanikube)
+- 🔗 [Documentação K8sGPT](https://docs.k8sgpt.ai/)
+- 🦙 [Documentação Ollama](https://github.com/ollama/ollama)
+
+---
+
+**Não encontrou sua resposta?** Abra uma issue no GitHub!

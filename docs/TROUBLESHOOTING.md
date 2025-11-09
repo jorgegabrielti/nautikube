@@ -1,6 +1,6 @@
-# Troubleshooting Guide
+# Guia de Solução de Problemas
 
-## Common Issues and Solutions
+## Problemas Comuns e Soluções
 
 ### 1. K8sGPT Cannot Connect to Kubernetes API
 

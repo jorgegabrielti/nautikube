@@ -1,36 +1,36 @@
-# Changelog
+# Histórico de Mudanças
 
-All notable changes to mekhanikube will be documented in this file.
+Todas as mudanças notáveis do mekhanikube serão documentadas neste arquivo.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+O formato é baseado em [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+e este projeto segue [Versionamento Semântico](https://semver.org/spec/v2.0.0.html).
 
 ## [1.0.0] - 2025-11-09
 
-### Added
-- Initial release of mekhanikube 🔧
-- Docker Compose setup with K8sGPT and Ollama
-- Automatic kubeconfig adjustment for Docker containers
-- Auto-configuration of K8sGPT auth on startup
-- Support for gemma:7b model (default)
-- Persistent volumes for models and configuration
-- Comprehensive README with setup and usage instructions
-- MIT License
+### Adicionado
+- Lançamento inicial do mekhanikube 🔧
+- Configuração Docker Compose com K8sGPT e Ollama
+- Ajuste automático de kubeconfig para contêineres Docker
+- Auto-configuração da autenticação K8sGPT na inicialização
+- Suporte para modelo gemma:7b (padrão)
+- Volumes persistentes para modelos e configuração
+- README abrangente com instruções de configuração e uso
+- Licença MIT
 
-### Features
-- AI-powered Kubernetes cluster analysis
-- Local LLM integration (no external API calls)
-- Problem detection across multiple K8s resource types
-- Automatic explanations and solutions via Ollama
-- Filter support (Pod, Service, ConfigMap, Deployment, etc)
-- Namespace-scoped analysis
-- Windows/Linux/macOS support via Docker
+### Funcionalidades
+- Análise de cluster Kubernetes alimentada por IA
+- Integração com LLM local (sem chamadas de API externas)
+- Detecção de problemas em múltiplos tipos de recursos K8s
+- Explicações e soluções automáticas via Ollama
+- Suporte a filtros (Pod, Service, ConfigMap, Deployment, etc)
+- Análise com escopo de namespace
+- Suporte para Windows/Linux/macOS via Docker
 
-### Components
-- K8sGPT: Built from official source (latest)
-- Ollama: Official image (latest)
-- Models: gemma:7b (5GB)
-- Base images: golang:1.23-alpine, alpine:latest
+### Componentes
+- K8sGPT: Construído da fonte oficial (latest)
+- Ollama: Imagem oficial (latest)
+- Modelos: gemma:7b (5GB)
+- Imagens base: golang:1.23-alpine, alpine:latest
 
-[1.0.0]: https://github.com/YOUR_USERNAME/mekhanikube/releases/tag/v1.0.0
+[1.0.0]: https://github.com/jorgegabrielti/mekhanikube/releases/tag/v1.0.0
 

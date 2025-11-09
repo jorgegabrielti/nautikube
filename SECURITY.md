@@ -1,254 +1,254 @@
-# Security Policy
+# Política de Segurança
 
-## Supported Versions
+## Versões Suportadas
 
-The following versions of Mekhanikube are currently being supported with security updates:
+As seguintes versões do Mekhanikube estão atualmente recebendo atualizações de segurança:
 
-| Version | Supported          |
+| Versão  | Suportada          |
 | ------- | ------------------ |
 | 1.0.x   | :white_check_mark: |
 | < 1.0   | :x:                |
 
-## Security Considerations
+## Considerações de Segurança
 
-### Local Deployment Only
+### Implantação Apenas Local
 
-Mekhanikube is designed to run **locally** on your infrastructure. It should not be exposed to the public internet.
+O Mekhanikube foi projetado para ser executado **localmente** na sua infraestrutura. Não deve ser exposto à internet pública.
 
-**Key Security Features**:
-- ✅ No external API calls (except model downloads from Ollama)
-- ✅ All data stays local
-- ✅ No telemetry or tracking
-- ✅ Read-only access to Kubernetes cluster
-- ✅ Kubeconfig mounted as read-only
+**Recursos de Segurança Principais**:
+- ✅ Nenhuma chamada de API externa (exceto downloads de modelos do Ollama)
+- ✅ Todos os dados permanecem locais
+- ✅ Sem telemetria ou rastreamento
+- ✅ Acesso somente leitura ao cluster Kubernetes
+- ✅ Kubeconfig montado como somente leitura
 
-### What Mekhanikube Does NOT Do
+### O que o Mekhanikube NÃO Faz
 
-- ❌ Does not modify your Kubernetes cluster
-- ❌ Does not send data to external services
-- ❌ Does not store sensitive credentials externally
-- ❌ Does not expose APIs publicly
+- ❌ Não modifica seu cluster Kubernetes
+- ❌ Não envia dados para serviços externos
+- ❌ Não armazena credenciais sensíveis externamente
+- ❌ Não expõe APIs publicamente
 
-## Reporting a Vulnerability
+## Reportar uma Vulnerabilidade
 
-If you discover a security vulnerability in Mekhanikube, please report it responsibly:
+Se você descobrir uma vulnerabilidade de segurança no Mekhanikube, por favor reporte-a de forma responsável:
 
-### How to Report
+### Como Reportar
 
 **Email**: [jorgegabrielti@gmail.com](mailto:jorgegabrielti@gmail.com)
 
-**Subject**: `[SECURITY] Brief description of issue`
+**Assunto**: `[SEGURANÇA] Breve descrição do problema`
 
-**Please include**:
-1. Description of the vulnerability
-2. Steps to reproduce
-3. Potential impact
-4. Suggested fix (if available)
-5. Your contact information (optional, for follow-up)
+**Por favor, inclua**:
+1. Descrição da vulnerabilidade
+2. Passos para reproduzir
+3. Impacto potencial
+4. Correção sugerida (se disponível)
+5. Suas informações de contato (opcional, para acompanhamento)
 
-### What to Expect
+### O que Esperar
 
-- **Initial Response**: Within 48 hours
-- **Status Update**: Within 7 days
-- **Fix Timeline**: Depends on severity (see below)
-- **Public Disclosure**: After fix is released or 90 days (whichever comes first)
+- **Resposta Inicial**: Dentro de 48 horas
+- **Atualização de Status**: Dentro de 7 dias
+- **Prazo para Correção**: Depende da severidade (veja abaixo)
+- **Divulgação Pública**: Após a correção ser lançada ou 90 dias (o que vier primeiro)
 
-### Severity Levels
+### Níveis de Severidade
 
-#### Critical (Fix within 7 days)
-- Remote code execution
-- Privilege escalation
-- Exposure of kubeconfig or credentials
-- Cluster modification without authorization
+#### Crítico (Correção em 7 dias)
+- Execução remota de código
+- Escalação de privilégios
+- Exposição de kubeconfig ou credenciais
+- Modificação de cluster sem autorização
 
-#### High (Fix within 14 days)
-- Information disclosure (cluster data)
-- Denial of service affecting cluster
-- Bypass of access controls
+#### Alto (Correção em 14 dias)
+- Divulgação de informações (dados do cluster)
+- Negação de serviço afetando o cluster
+- Bypass de controles de acesso
 
-#### Medium (Fix within 30 days)
-- Denial of service (local only)
-- Information leaks (non-sensitive)
-- Configuration issues
+#### Médio (Correção em 30 dias)
+- Negação de serviço (apenas local)
+- Vazamento de informações (não sensíveis)
+- Problemas de configuração
 
-#### Low (Fix when possible)
-- Minor issues with limited impact
-- Documentation errors
-- Best practice violations
+#### Baixo (Correção quando possível)
+- Problemas menores com impacto limitado
+- Erros de documentação
+- Violações de boas práticas
 
-## Security Best Practices
+## Melhores Práticas de Segurança
 
-### For Users
+### Para Usuários
 
-1. **Network Isolation**
+1. **Isolamento de Rede**
    ```yaml
-   # Keep containers on host network (default)
-   # Or use private Docker network
+   # Mantenha contêineres na rede do host (padrão)
+   # Ou use rede Docker privada
    network_mode: host
    ```
 
-2. **Kubeconfig Protection**
+2. **Proteção do Kubeconfig**
    ```yaml
-   # Always mount as read-only
+   # Sempre monte como somente leitura
    volumes:
      - ~/.kube/config:/root/.kube/config:ro
    ```
 
-3. **Regular Updates**
+3. **Atualizações Regulares**
    ```bash
-   # Keep Mekhanikube updated
+   # Mantenha o Mekhanikube atualizado
    git pull origin main
    make build
    make restart
    ```
 
-4. **Limit Cluster Access**
+4. **Limitar Acesso ao Cluster**
    ```bash
-   # Use service account with read-only permissions
-   # Create dedicated kubeconfig for Mekhanikube
+   # Use service account com permissões somente leitura
+   # Crie kubeconfig dedicado para o Mekhanikube
    ```
 
-5. **Monitor Logs**
+5. **Monitorar Logs**
    ```bash
-   # Regularly check logs for anomalies
+   # Verifique os logs regularmente para anomalias
    make logs
    ```
 
-### For Developers
+### Para Desenvolvedores
 
-1. **Dependency Management**
-   - Keep base images updated
-   - Scan for vulnerabilities regularly
-   - Pin dependency versions
+1. **Gerenciamento de Dependências**
+   - Mantenha as imagens base atualizadas
+   - Faça varredura de vulnerabilidades regularmente
+   - Fixe versões de dependências
 
-2. **Code Review**
-   - All PRs require review
-   - Security-sensitive changes need extra scrutiny
-   - Run security scans in CI/CD
+2. **Revisão de Código**
+   - Todos os PRs requerem revisão
+   - Mudanças sensíveis à segurança precisam de escrutínio extra
+   - Execute verificações de segurança no CI/CD
 
-3. **Secret Management**
-   - Never commit secrets to git
-   - Use `.env` files (already in `.gitignore`)
-   - Rotate credentials regularly
+3. **Gerenciamento de Segredos**
+   - Nunca faça commit de segredos no git
+   - Use arquivos `.env` (já no `.gitignore`)
+   - Rotacione credenciais regularmente
 
-4. **Container Security**
-   - Run containers as non-root when possible
-   - Minimize image size
-   - Use official base images
-   - Enable security scanning
+4. **Segurança de Contêineres**
+   - Execute contêineres como não-root quando possível
+   - Minimize o tamanho da imagem
+   - Use imagens base oficiais
+   - Habilite varredura de segurança
 
-## Security Testing
+## Testes de Segurança
 
-### Automated Security Checks
+### Verificações Automáticas de Segurança
 
-Mekhanikube includes:
+O Mekhanikube inclui:
 
-- **Trivy vulnerability scanning** (in CI/CD)
-- **ShellCheck** for script linting
-- **Docker Compose validation**
+- **Varredura de vulnerabilidades Trivy** (no CI/CD)
+- **ShellCheck** para lint de scripts
+- **Validação do Docker Compose**
 
-Run locally:
+Execute localmente:
 ```bash
-# Lint configuration
+# Lint de configuração
 make lint
 
-# Run tests
+# Executar testes
 make test
 
-# Check health
+# Verificar saúde
 make health
 ```
 
-### Manual Security Review
+### Revisão Manual de Segurança
 
-Before each release:
-- [ ] Review all dependencies
-- [ ] Check for known vulnerabilities
-- [ ] Test with minimal permissions
-- [ ] Verify no sensitive data exposure
-- [ ] Confirm read-only cluster access
+Antes de cada lançamento:
+- [ ] Revisar todas as dependências
+- [ ] Verificar vulnerabilidades conhecidas
+- [ ] Testar com permissões mínimas
+- [ ] Verificar que não há exposição de dados sensíveis
+- [ ] Confirmar acesso somente leitura ao cluster
 
-## Known Limitations
+## Limitações Conhecidas
 
-### 1. Kubeconfig Exposure in Container
+### 1. Exposição do Kubeconfig no Contêiner
 
-**Issue**: Kubeconfig is mounted in container filesystem.
+**Problema**: Kubeconfig é montado no sistema de arquivos do contêiner.
 
-**Mitigation**:
-- Mounted as read-only
-- Container filesystem is ephemeral
-- Not exposed externally
+**Mitigação**:
+- Montado como somente leitura
+- Sistema de arquivos do contêiner é efêmero
+- Não exposto externamente
 
-**Recommendation**: Use dedicated kubeconfig with minimal permissions.
+**Recomendação**: Use kubeconfig dedicado com permissões mínimas.
 
-### 2. Docker Socket Access (Not Required)
+### 2. Acesso ao Socket do Docker (Não Necessário)
 
-**Status**: Mekhanikube does NOT require Docker socket access.
+**Status**: O Mekhanikube NÃO requer acesso ao socket do Docker.
 
-**If you see requests for `/var/run/docker.sock`**: This is not needed and should not be granted.
+**Se você ver solicitações para `/var/run/docker.sock`**: Isso não é necessário e não deve ser concedido.
 
-### 3. Host Network Mode
+### 3. Modo de Rede Host
 
-**Trade-off**: Host network mode simplifies connectivity but shares host network stack.
+**Trade-off**: O modo de rede host simplifica a conectividade, mas compartilha a pilha de rede do host.
 
-**Alternative**: Use bridge mode with explicit port mappings:
+**Alternativa**: Use modo bridge com mapeamentos explícitos de porta:
 ```yaml
 network_mode: bridge
 ports:
   - "11434:11434"
 ```
 
-## Security Disclosure Policy
+## Política de Divulgação de Segurança
 
-### Public Disclosure
+### Divulgação Pública
 
-Security vulnerabilities will be disclosed:
+Vulnerabilidades de segurança serão divulgadas:
 
-1. **After a fix is released**
-2. **After 90 days** (if no fix is available)
-3. **With credit to reporter** (if desired)
+1. **Após uma correção ser lançada**
+2. **Após 90 dias** (se nenhuma correção estiver disponível)
+3. **Com crédito ao relator** (se desejado)
 
-### Hall of Fame
+### Mural da Fama
 
-We recognize security researchers who responsibly disclose vulnerabilities:
+Reconhecemos pesquisadores de segurança que divulgam vulnerabilidades de forma responsável:
 
-- *Be the first!*
+- *Seja o primeiro!*
 
-## Compliance
+## Conformidade
 
-### Data Privacy
+### Privacidade de Dados
 
-Mekhanikube is designed for privacy:
-- No data collection
-- No external communications
-- No telemetry
-- GDPR compliant (no personal data processed)
+O Mekhanikube foi projetado para privacidade:
+- Sem coleta de dados
+- Sem comunicações externas
+- Sem telemetria
+- Compatível com GDPR (nenhum dado pessoal processado)
 
-### Audit Trail
+### Trilha de Auditoria
 
-For compliance purposes:
+Para fins de conformidade:
 ```bash
-# All actions are logged
+# Todas as ações são registradas
 docker logs mekhanikube-k8sgpt
 
-# Kubernetes API audit logs (in your cluster)
+# Logs de auditoria da API Kubernetes (no seu cluster)
 kubectl logs -n kube-system kube-apiserver-*
 ```
 
-## Security Resources
+## Recursos de Segurança
 
-- [Docker Security Best Practices](https://docs.docker.com/engine/security/)
-- [Kubernetes Security](https://kubernetes.io/docs/concepts/security/)
-- [K8sGPT Security](https://docs.k8sgpt.ai/)
-- [Ollama Security](https://github.com/ollama/ollama/blob/main/docs/security.md)
+- [Melhores Práticas de Segurança do Docker](https://docs.docker.com/engine/security/)
+- [Segurança do Kubernetes](https://kubernetes.io/docs/concepts/security/)
+- [Segurança do K8sGPT](https://docs.k8sgpt.ai/)
+- [Segurança do Ollama](https://github.com/ollama/ollama/blob/main/docs/security.md)
 
-## Contact
+## Contato
 
-For security concerns:
+Para questões de segurança:
 - **Email**: [jorgegabrielti@gmail.com](mailto:jorgegabrielti@gmail.com)
-- **GitHub Issues**: For non-sensitive issues
-- **GitHub Security Advisory**: For responsible disclosure
+- **GitHub Issues**: Para problemas não sensíveis
+- **GitHub Security Advisory**: Para divulgação responsável
 
 ---
 
-**Last Updated**: 2025-11-09
+**Última Atualização**: 2025-11-09

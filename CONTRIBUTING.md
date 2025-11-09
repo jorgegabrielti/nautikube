@@ -1,60 +1,60 @@
-# Contributing to mekhanikube 🔧
+# Contribuindo para o mekhanikube 🔧
 
-Thank you for your interest in contributing to mekhanikube!
+Obrigado pelo seu interesse em contribuir com o mekhanikube!
 
-## How to Contribute
+## Como Contribuir
 
-### Reporting Issues
-- Use GitHub Issues to report bugs
-- Include your OS, Docker version, and Kubernetes version
-- Provide steps to reproduce the issue
-- Include relevant logs (`docker logs mekhanikube-k8sgpt` or `docker logs mekhanikube-ollama`)
+### Reportando Problemas
+- Use GitHub Issues para reportar bugs
+- Inclua seu SO, versão do Docker e versão do Kubernetes
+- Forneça passos para reproduzir o problema
+- Inclua logs relevantes (`docker logs mekhanikube-k8sgpt` ou `docker logs mekhanikube-ollama`)
 
-### Suggesting Features
-- Open a GitHub Issue with the "enhancement" label
-- Describe the use case and expected behavior
-- Explain how it would benefit users
+### Sugerindo Funcionalidades
+- Abra uma GitHub Issue com o rótulo "enhancement"
+- Descreva o caso de uso e o comportamento esperado
+- Explique como isso beneficiaria os usuários
 
 ### Pull Requests
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Test your changes locally
-4. Commit with clear messages (`git commit -m 'Add amazing feature'`)
-5. Push to your fork (`git push origin feature/amazing-feature`)
-6. Open a Pull Request
+1. Faça fork do repositório
+2. Crie uma branch de funcionalidade (`git checkout -b feature/funcionalidade-incrivel`)
+3. Teste suas alterações localmente
+4. Faça commit com mensagens claras (`git commit -m 'Adiciona funcionalidade incrível'`)
+5. Envie para seu fork (`git push origin feature/funcionalidade-incrivel`)
+6. Abra um Pull Request
 
-### Development Setup
+### Configuração de Desenvolvimento
 
 ```bash
-# Clone your fork
-git clone https://github.com/YOUR_USERNAME/mekhanikube.git
+# Clone seu fork
+git clone https://github.com/SEU_USUARIO/mekhanikube.git
 cd mekhanikube
 
-# Start the stack
+# Inicie a pilha
 docker-compose up -d
 
-# Download a model
+# Baixe um modelo
 docker exec mekhanikube-ollama ollama pull gemma:7b
 
-# Test
+# Teste
 docker exec mekhanikube-k8sgpt k8sgpt analyze --explain
 ```
 
-## Code Style
+## Estilo de Código
 
-- Shell scripts: Follow ShellCheck recommendations
-- Docker: Use multi-stage builds and minimize layers
-- Documentation: Keep README.md updated
+- Scripts Shell: Siga as recomendações do ShellCheck
+- Docker: Use builds multi-estágio e minimize camadas
+- Documentação: Mantenha o README.md atualizado
 
-## Testing
+## Testes
 
-Before submitting a PR:
-1. Ensure Docker images build successfully
-2. Test with a local Kubernetes cluster
-3. Verify all commands in README.md work
-4. Check that entrypoint.sh handles edge cases
+Antes de enviar um PR:
+1. Garanta que as imagens Docker sejam construídas com sucesso
+2. Teste com um cluster Kubernetes local
+3. Verifique se todos os comandos no README.md funcionam
+4. Verifique se o entrypoint.sh trata casos extremos
 
-## Questions?
+## Dúvidas?
 
-Open a GitHub Discussion or Issue!
+Abra uma GitHub Discussion ou Issue!
 
