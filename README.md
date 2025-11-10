@@ -1,6 +1,6 @@
 ﻿<div align="center">
 
-#  Mekhanikube
+<img src="assets/logo.png" alt="Mekhanikube Logo" width="800"/>
 
 **Seu mecânico de Kubernetes com IA**
 
