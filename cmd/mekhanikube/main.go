@@ -22,7 +22,7 @@ var (
 	noCache   bool
 
 	// Configurações Ollama
-	ollamaURL   = "http://localhost:11434"
+	ollamaURL   = "http://host.docker.internal:11434"
 	ollamaModel = "llama3.1:8b"
 )
 
