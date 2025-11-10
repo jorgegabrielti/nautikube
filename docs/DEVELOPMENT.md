@@ -1,15 +1,15 @@
-# Guia de Desenvolvimento - Mekhanikube
+# Guia de Desenvolvimento - NautiKube
 
 ## Arquitetura
 
-Mekhanikube é uma ferramenta escrita em Go que analisa clusters Kubernetes e fornece explicações usando IA local.
+NautiKube é uma ferramenta escrita em Go que analisa clusters Kubernetes e fornece explicações usando IA local.
 
 ### Estrutura do Projeto
 
 ```
-mekhanikube/
+NautiKube/
 ├── cmd/
-│   └── mekhanikube/          # CLI principal
+│   └── NautiKube/          # CLI principal
 │       └── main.go           # Ponto de entrada, comandos Cobra
 ├── internal/                 # Código interno (não exportado)
 │   ├── scanner/              # Scanner Kubernetes
@@ -22,8 +22,8 @@ mekhanikube/
 │   └── types/                # Tipos públicos
 │       └── types.go          # Structs compartilhadas
 ├── configs/
-│   ├── Dockerfile.mekhanikube      # Build otimizado
-│   └── entrypoint-mekhanikube.sh   # Script de inicialização
+│   ├── Dockerfile.NautiKube      # Build otimizado
+│   └── entrypoint-NautiKube.sh   # Script de inicialização
 ├── go.mod                    # Dependências Go
 └── docker-compose.yml        # Orquestração containers
 ```
@@ -83,44 +83,44 @@ Cliente HTTP para comunicação com Ollama.
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/jorgegabrielti/mekhanikube.git
-cd mekhanikube
+git clone https://github.com/jorgegabrielti/NautiKube.git
+cd NautiKube
 
 # 2. Baixe dependências
 go mod download
 
 # 3. Build local
-go build -o mekhanikube ./cmd/mekhanikube
+go build -o NautiKube ./cmd/NautiKube
 
 # 4. Teste local (requer cluster + ollama rodando)
-./mekhanikube analyze --explain --language Portuguese
+./NautiKube analyze --explain --language Portuguese
 ```
 
 ### Build Container
 
 ```bash
 # Build imagem
-docker-compose build mekhanikube
+docker-compose build NautiKube
 
 # Iniciar serviços
 docker-compose up -d
 
 # Ver logs
-docker-compose logs -f mekhanikube
+docker-compose logs -f NautiKube
 ```
 
 ### Testes
 
 ```bash
 # Teste básico (sem IA)
-docker exec mekhanikube mekhanikube analyze
+docker exec NautiKube NautiKube analyze
 
 # Teste com IA
-docker exec mekhanikube mekhanikube analyze --explain --language Portuguese
+docker exec NautiKube NautiKube analyze --explain --language Portuguese
 
 # Teste filtros
-docker exec mekhanikube mekhanikube analyze --filter Pod
-docker exec mekhanikube mekhanikube analyze --filter ConfigMap -n kube-system
+docker exec NautiKube NautiKube analyze --filter Pod
+docker exec NautiKube NautiKube analyze --filter ConfigMap -n kube-system
 ```
 
 ## Adicionando Novos Recursos
@@ -169,9 +169,9 @@ if shouldScanServices {
 ### 3. Rebuild e Teste
 
 ```bash
-docker-compose build mekhanikube
-docker-compose up -d mekhanikube
-docker exec mekhanikube mekhanikube analyze --filter Service --explain
+docker-compose build NautiKube
+docker-compose up -d NautiKube
+docker exec NautiKube NautiKube analyze --filter Service --explain
 ```
 
 ## Performance
@@ -186,7 +186,7 @@ docker exec mekhanikube mekhanikube analyze --filter Service --explain
 
 ### Benchmarks
 
-| Operação | K8sGPT | Mekhanikube | Melhoria |
+| Operação | K8sGPT | NautiKube | Melhoria |
 |----------|---------|-------------|----------|
 | Build | ~60s | ~30s | 50% |
 | Startup | 30s | <10s | 67% |
@@ -202,12 +202,12 @@ docker exec mekhanikube mekhanikube analyze --filter Service --explain
 docker builder prune -a
 
 # Rebuild sem cache
-docker-compose build --no-cache mekhanikube
+docker-compose build --no-cache NautiKube
 ```
 
 ### Erro de conexão ao cluster
 
-Verifique `entrypoint-mekhanikube.sh` e ajuste substituições:
+Verifique `entrypoint-NautiKube.sh` e ajuste substituições:
 
 ```bash
 sed 's|https://127.0.0.1|https://host.docker.internal|g'

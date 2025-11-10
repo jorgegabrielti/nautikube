@@ -2,14 +2,14 @@
 
 ## Visão Geral
 
-Este documento descreve a organização e propósito dos arquivos e diretórios no projeto Mekhanikube.
+Este documento descreve a organização e propósito dos arquivos e diretórios no projeto NautiKube.
 
 ## Estrutura de Diretórios
 
 ```
-mekhanikube/
+NautiKube/
 ├── cmd/                     # 🆕 Aplicações Go
-│   └── mekhanikube/
+│   └── NautiKube/
 │       └── main.go          # Entry point CLI (Cobra)
 │
 ├── internal/                # 🆕 Código interno Go
@@ -25,13 +25,13 @@ mekhanikube/
 │       └── types.go         # Estruturas compartilhadas
 │
 ├── configs/                 # Configurações e Dockerfiles
-│   ├── Dockerfile.mekhanikube
-│   ├── entrypoint-mekhanikube.sh
+│   ├── Dockerfile.NautiKube
+│   ├── entrypoint-NautiKube.sh
 │   ├── Dockerfile.k8sgpt    # Legacy
 │   └── entrypoint.sh        # Legacy
 │
 ├── assets/                  # 🆕 Recursos estáticos
-│   └── logo.png             # Logo oficial Mekhanikube
+│   └── logo.png             # Logo oficial NautiKube
 │
 ├── docs/                    # Documentação
 │   ├── ARCHITECTURE.md      # ✅ Atualizado para v2.0
@@ -68,7 +68,7 @@ mekhanikube/
 
 ### 🆕 Código Go
 
-#### `cmd/mekhanikube/`
+#### `cmd/NautiKube/`
 **Entry point da aplicação**
 - `main.go`: CLI usando Cobra framework
 - Define comandos: `analyze`, `version`
@@ -110,15 +110,15 @@ mekhanikube/
 ### `configs/`
 
 **Dockerfiles e entrypoints**:
-- **Dockerfile.mekhanikube**: Multi-stage build Go (~80MB)
-- **entrypoint-mekhanikube.sh**: Init script com health checks
+- **Dockerfile.NautiKube**: Multi-stage build Go (~80MB)
+- **entrypoint-NautiKube.sh**: Init script com health checks
 - **Dockerfile.k8sgpt**: Build K8sGPT legacy (~200MB)
 - **entrypoint.sh**: Init script K8sGPT legacy
 
 ### `assets/`
 
 **Recursos estáticos**:
-- **logo.png**: Logo oficial Mekhanikube (954KB, 800px width)
+- **logo.png**: Logo oficial NautiKube (954KB, 800px width)
 
 ### `docs/`
 
@@ -126,7 +126,7 @@ Documentação completa do projeto:
 - **ARCHITECTURE.md**: Arquitetura v2.0 com Go components
 - **DEVELOPMENT.md**: Guia para desenvolvedores (Go + Docker)
 - **FAQ.md**: Perguntas frequentes (v1 vs v2)
-- **TROUBLESHOOTING.md**: Soluções para Mekhanikube v2 e K8sGPT legacy
+- **TROUBLESHOOTING.md**: Soluções para NautiKube v2 e K8sGPT legacy
 - **PROJECT_STRUCTURE.md**: Este arquivo
 - **PROJECT_IMPROVEMENTS.md**: Histórico de melhorias
 

@@ -12,7 +12,7 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
 
-	"github.com/jorgegabrielti/mekhanikube/pkg/types"
+	"github.com/jorgegabrielti/nautikube/pkg/types"
 )
 
 // Scanner é responsável por escanear recursos do cluster

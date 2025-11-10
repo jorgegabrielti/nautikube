@@ -1,8 +1,8 @@
-# 📊 Análise Profunda do Projeto Mekhanikube v2.0
+# 📊 Análise Profunda do Projeto NautiKube v2.0
 
 ## 🎯 Visão Geral Executiva
 
-**Mekhanikube v2.0** é um analisador de clusters Kubernetes com IA, desenvolvido em Go, que substitui completamente o K8sGPT por uma solução própria 60% mais leve, 3x mais rápida e com configuração zero.
+**NautiKube v2.0** é um analisador de clusters Kubernetes com IA, desenvolvido em Go, que substitui completamente o K8sGPT por uma solução própria 60% mais leve, 3x mais rápida e com configuração zero.
 
 ### Métricas do Projeto
 - **Linguagem**: Go 1.21+
@@ -19,8 +19,8 @@
 ### 1. Estrutura de Diretórios
 
 ```
-mekhanikube/
-├── cmd/mekhanikube/           # Entry point da aplicação
+NautiKube/
+├── cmd/NautiKube/           # Entry point da aplicação
 │   └── main.go               # CLI com Cobra (213 linhas)
 ├── internal/                 # Código interno (não exportável)
 │   ├── scanner/             # Scanner de recursos K8s
@@ -34,8 +34,8 @@ mekhanikube/
 │   ├── types.go            # Estruturas de dados (43 linhas)
 │   └── types_test.go       # Testes unitários
 ├── configs/                 # Dockerfiles e entrypoints
-│   ├── Dockerfile.mekhanikube
-│   ├── entrypoint-mekhanikube.sh
+│   ├── Dockerfile.NautiKube
+│   ├── entrypoint-NautiKube.sh
 │   ├── Dockerfile.k8sgpt    # Legacy
 │   └── entrypoint-k8sgpt.sh # Legacy
 ├── docs/                    # Documentação completa
@@ -54,7 +54,7 @@ mekhanikube/
 │ 1. INICIALIZAÇÃO                                                     │
 └─────────────────────────────────────────────────────────────────────┘
    ↓
-   User executa: mekhanikube analyze --explain --language Portuguese
+   User executa: NautiKube analyze --explain --language Portuguese
    ↓
 ┌─────────────────────────────────────────────────────────────────────┐
 │ 2. MAIN.GO (Entry Point)                                            │
@@ -158,7 +158,7 @@ mekhanikube/
 
 ## 🔍 Análise de Componentes
 
-### cmd/mekhanikube/main.go
+### cmd/NautiKube/main.go
 
 **Responsabilidade**: Entry point e CLI
 
@@ -167,9 +167,9 @@ mekhanikube/
 - **Variáveis de Ambiente**: Suporte para configuração via env vars
   - `OLLAMA_HOST`: URL do Ollama (default: host.docker.internal:11434)
   - `OLLAMA_MODEL`: Modelo LLM (default: llama3.1:8b)
-  - `MEKHANIKUBE_DEFAULT_NAMESPACE`: Namespace padrão
-  - `MEKHANIKUBE_DEFAULT_LANGUAGE`: Idioma padrão (Portuguese)
-  - `MEKHANIKUBE_EXPLAIN`: Habilitar explicações por padrão
+  - `NautiKube_DEFAULT_NAMESPACE`: Namespace padrão
+  - `NautiKube_DEFAULT_LANGUAGE`: Idioma padrão (Portuguese)
+  - `NautiKube_EXPLAIN`: Habilitar explicações por padrão
 
 **Comandos**:
 1. `analyze`: Análise do cluster
@@ -411,7 +411,7 @@ type OllamaResponse struct {
 
 ## 🐳 Infraestrutura Docker
 
-### configs/Dockerfile.mekhanikube
+### configs/Dockerfile.NautiKube
 
 **Multi-stage Build**:
 
@@ -424,7 +424,7 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
     go build -ldflags="-w -s" \
-    -o mekhanikube ./cmd/mekhanikube
+    -o NautiKube ./cmd/NautiKube
 ```
 - CGO_ENABLED=0: Binary estático (sem dependências C)
 - -ldflags="-w -s": Remove debug info e symbol table
@@ -434,8 +434,8 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
 ```dockerfile
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates curl kubectl
-COPY --from=builder /app/mekhanikube /usr/local/bin/
-COPY configs/entrypoint-mekhanikube.sh /entrypoint.sh
+COPY --from=builder /app/NautiKube /usr/local/bin/
+COPY configs/entrypoint-NautiKube.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["tail", "-f", "/dev/null"]
 ```
@@ -443,7 +443,7 @@ CMD ["tail", "-f", "/dev/null"]
 - + ca-certificates: HTTPS
 - + curl: Health checks
 - + kubectl: K8s CLI
-- + mekhanikube: ~15MB
+- + NautiKube: ~15MB
 - **Total: ~80MB**
 
 **Otimizações**:
@@ -454,7 +454,7 @@ CMD ["tail", "-f", "/dev/null"]
 - 💡 Poderia usar scratch (ainda menor)
 - 💡 Poderia comprimir binary com UPX
 
-### configs/entrypoint-mekhanikube.sh
+### configs/entrypoint-NautiKube.sh
 
 **Responsabilidades**:
 1. Ajustar kubeconfig para Docker
@@ -482,15 +482,15 @@ CMD ["tail", "-f", "/dev/null"]
 1. **ollama**: Servidor LLM
    - Image: ollama/ollama:latest
    - Ports: 11434:11434
-   - Volume: mekhanikube-ollama-data (~4.7GB por modelo)
+   - Volume: NautiKube-ollama-data (~4.7GB por modelo)
    - Healthcheck: curl /api/tags
 
-2. **mekhanikube** (default): Engine v2
-   - Build: configs/Dockerfile.mekhanikube
+2. **NautiKube** (default): Engine v2
+   - Build: configs/Dockerfile.NautiKube
    - Depends: ollama (healthy)
    - Volume: kubeconfig:ro
    - Network: host (acesso ao cluster)
-   - Healthcheck: mekhanikube version
+   - Healthcheck: NautiKube version
 
 3. **k8sgpt** (profile): Legacy
    - Build: configs/Dockerfile.k8sgpt
@@ -547,7 +547,7 @@ CMD ["tail", "-f", "/dev/null"]
 
 ### Utilities
 - `make pull-model MODEL=...`: Baixa modelo
-- `make shell-mekhanikube`: Shell no container
+- `make shell-NautiKube`: Shell no container
 - `make version`: Mostra versão
 - `make prune`: Limpeza completa
 
@@ -644,9 +644,9 @@ CMD ["tail", "-f", "/dev/null"]
 
 ---
 
-## 📈 Comparação Final: Mekhanikube v2 vs K8sGPT
+## 📈 Comparação Final: NautiKube v2 vs K8sGPT
 
-| Métrica | K8sGPT | Mekhanikube v2 | Melhoria |
+| Métrica | K8sGPT | NautiKube v2 | Melhoria |
 |---------|---------|----------------|----------|
 | **Imagem Docker** | 200MB | 80MB | 🟢 -60% |
 | **Startup** | 30s | <10s | 🟢 -67% |
@@ -663,7 +663,7 @@ CMD ["tail", "-f", "/dev/null"]
 
 ## 🎓 Conclusão
 
-Mekhanikube v2.0 representa uma **refatoração arquitetural completa** que prioriza:
+NautiKube v2.0 representa uma **refatoração arquitetural completa** que prioriza:
 
 1. **Performance**: -60% tamanho, -67% startup, -67% RAM
 2. **Simplicidade**: Zero configuração vs 3 comandos

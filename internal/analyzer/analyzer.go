@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/jorgegabrielti/mekhanikube/internal/ollama"
-	"github.com/jorgegabrielti/mekhanikube/internal/scanner"
-	"github.com/jorgegabrielti/mekhanikube/pkg/types"
+	"github.com/jorgegabrielti/nautikube/internal/ollama"
+	"github.com/jorgegabrielti/nautikube/internal/scanner"
+	"github.com/jorgegabrielti/nautikube/pkg/types"
 )
 
 // Analyzer coordena o scanning e análise de problemas

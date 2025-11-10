@@ -1,4 +1,4 @@
-module github.com/jorgegabrielti/mekhanikube
+module github.com/jorgegabrielti/nautikube
 
 go 1.21
 

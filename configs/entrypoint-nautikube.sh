@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-echo "🔧 Mekhanikube - Seu mecânico de Kubernetes"
+echo "⚓ NautiKube - Seu navegador de diagnósticos Kubernetes"
 echo ""
 
 # Ajusta kubeconfig para funcionar dentro do container
@@ -41,8 +41,8 @@ else
 fi
 
 echo ""
-echo "🚀 Mekhanikube pronto!"
-echo "   Teste com: docker exec mekhanikube mekhanikube analyze --explain --language Portuguese"
+echo "🚀 NautiKube pronto!"
+echo "   Teste com: docker exec nautikube nautikube analyze --explain --language Portuguese"
 echo ""
 
 # Mantém container rodando

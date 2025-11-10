@@ -2,15 +2,15 @@
 
 ## Visão Geral do Sistema
 
-Mekhanikube v2.0 é uma solução containerizada **própria** desenvolvida em Go que analisa clusters Kubernetes e fornece explicações via IA local (Ollama). A solução substitui o K8sGPT por um engine customizado mais leve e rápido.
+NautiKube v2.0 é uma solução containerizada **própria** desenvolvida em Go que analisa clusters Kubernetes e fornece explicações via IA local (Ollama). A solução substitui o K8sGPT por um engine customizado mais leve e rápido.
 
 ## Componentes Principais
 
-### 🎯 Mekhanikube v2 (Padrão)
+### 🎯 NautiKube v2 (Padrão)
 
 **Engine Próprio em Go**
 
-#### CLI (`cmd/mekhanikube/main.go`)
+#### CLI (`cmd/NautiKube/main.go`)
 - Framework: Cobra v1.8.0
 - Comandos: `analyze`, `version`
 - Flags: `--namespace`, `--filter`, `--explain`, `--language`
@@ -72,11 +72,11 @@ Disponível com `docker-compose --profile k8sgpt up -d` para compatibilidade.
 - API REST na porta 11434
 - Armazenamento persistente de modelos
 - Modelo padrão: llama3.1:8b (4.7GB)
-- Compartilhado entre Mekhanikube e K8sGPT
+- Compartilhado entre NautiKube e K8sGPT
 
 ## Fluxo de Dados (v2.0)
 
-1. **Solicitação**: `mekhanikube analyze --explain` → CLI Cobra
+1. **Solicitação**: `NautiKube analyze --explain` → CLI Cobra
 2. **Inicialização**: CLI → Analyzer → Scanner (client-go)
 3. **Scanning**: Scanner → API Kubernetes → Lista de recursos
 4. **Análise**: Scanner → Detecta problemas → Lista de Problems
@@ -90,9 +90,9 @@ Disponível com `docker-compose --profile k8sgpt up -d` para compatibilidade.
 ## Estrutura do Código (v2.0)
 
 ```
-mekhanikube/
+NautiKube/
 ├── cmd/
-│   └── mekhanikube/
+│   └── NautiKube/
 │       └── main.go              # Entry point, CLI Cobra
 ├── internal/
 │   ├── scanner/
@@ -105,8 +105,8 @@ mekhanikube/
 │   └── types/
 │       └── types.go             # Shared structures
 ├── configs/
-│   ├── Dockerfile.mekhanikube   # Multi-stage build
-│   └── entrypoint-mekhanikube.sh # Container init
+│   ├── Dockerfile.NautiKube   # Multi-stage build
+│   └── entrypoint-NautiKube.sh # Container init
 ├── go.mod / go.sum              # Dependencies
 └── docker-compose.yml           # Orchestration
 ```
@@ -119,7 +119,7 @@ mekhanikube/
 network_mode: host
 ```
 
-**Usado por**: Mekhanikube, K8sGPT
+**Usado por**: NautiKube, K8sGPT
 
 **Vantagens**:
 - Acesso direto ao cluster K8s local
@@ -135,11 +135,11 @@ network_mode: host
 
 ### Volumes Persistentes
 
-1. **mekhanikube-ollama-data**: 
+1. **NautiKube-ollama-data**: 
    - Armazena modelos LLM (~4.7GB por modelo)
    - Compartilhado entre versões
    
-2. **mekhanikube-k8sgpt-config** (legacy):
+2. **NautiKube-k8sgpt-config** (legacy):
    - Configuração K8sGPT
    - Apenas quando usando profile k8sgpt
 
@@ -171,7 +171,7 @@ network_mode: host
 
 ### Requisitos de Recursos (v2.0)
 
-**Mínimo (Mekhanikube)**:
+**Mínimo (NautiKube)**:
 - 1 núcleo CPU
 - 2GB RAM
 - 5GB disco (modelo llama3.1:8b)
@@ -182,7 +182,7 @@ network_mode: host
 - 10GB disco (múltiplos modelos)
 
 **Comparação v1 vs v2**:
-| Métrica | K8sGPT (v1) | Mekhanikube (v2) |
+| Métrica | K8sGPT (v1) | NautiKube (v2) |
 |---------|-------------|------------------|
 | Imagem Docker | ~200MB | ~80MB |
 | RAM em execução | ~150MB | ~50MB |
@@ -219,7 +219,7 @@ network_mode: host
 k8s-analysis:
   script:
     - docker-compose up -d
-    - docker exec mekhanikube-k8sgpt k8sgpt analyze --explain > report.txt
+    - docker exec NautiKube-k8sgpt k8sgpt analyze --explain > report.txt
   artifacts:
     paths:
       - report.txt
@@ -227,13 +227,13 @@ k8s-analysis:
 
 ### Integração de Monitoramento
 
-Mekhanikube complementa ferramentas de monitoramento existentes:
+NautiKube complementa ferramentas de monitoramento existentes:
 - Prometheus/Grafana: métricas
-- Mekhanikube: detecção e explicação de problemas
+- NautiKube: detecção e explicação de problemas
 
 ### Integração de Alertas
 
-Use Mekhanikube em resposta a alertas para diagnóstico automatizado.
+Use NautiKube em resposta a alertas para diagnóstico automatizado.
 
 ## Solução de Problemas de Arquitetura
 

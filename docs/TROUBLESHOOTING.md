@@ -1,8 +1,8 @@
 # Guia de Solução de Problemas
 
-## 🆕 Mekhanikube v2.0
+## 🆕 NautiKube v2.0
 
-### 1. Mekhanikube Não Consegue Conectar ao Cluster
+### 1. NautiKube Não Consegue Conectar ao Cluster
 
 **Sintomas**:
 ```
@@ -12,13 +12,13 @@ Error: unable to connect to Kubernetes cluster
 **Diagnóstico**:
 ```bash
 # Verificar conexão do container
-docker exec mekhanikube kubectl get nodes
+docker exec NautiKube kubectl get nodes
 
 # Ver logs do container
-docker logs mekhanikube
+docker logs NautiKube
 
 # Verificar kubeconfig
-docker exec mekhanikube cat /root/.kube/config_mod
+docker exec NautiKube cat /root/.kube/config_mod
 ```
 
 **Soluções**:
@@ -38,14 +38,14 @@ kubectl cluster-info
 kubectl get nodes
 
 # Verificar montagem no container
-docker inspect mekhanikube | grep -A 10 Mounts
+docker inspect NautiKube | grep -A 10 Mounts
 ```
 
 **Correção**: Garantir que `~/.kube/config` existe e está montado corretamente em `docker-compose.yml`.
 
 ---
 
-### 2. Mekhanikube Não Consegue Conectar ao Ollama
+### 2. NautiKube Não Consegue Conectar ao Ollama
 
 **Sintomas**:
 ```
@@ -57,10 +57,10 @@ dial tcp: lookup host.docker.internal: no such host
 ```bash
 # Verificar Ollama
 docker ps | grep ollama
-docker logs mekhanikube-ollama
+docker logs NautiKube-ollama
 
 # Testar conectividade
-docker exec mekhanikube curl -s http://host.docker.internal:11434/api/tags
+docker exec NautiKube curl -s http://host.docker.internal:11434/api/tags
 ```
 
 **Soluções**:
@@ -77,10 +77,10 @@ docker-compose restart ollama
 #### B. Modelo não instalado
 ```bash
 # Listar modelos
-docker exec mekhanikube-ollama ollama list
+docker exec NautiKube-ollama ollama list
 
 # Instalar llama3.1:8b (padrão)
-docker exec mekhanikube-ollama ollama pull llama3.1:8b
+docker exec NautiKube-ollama ollama pull llama3.1:8b
 ```
 
 ---
@@ -97,10 +97,10 @@ Problemas encontrados mas sem explicações da IA.
 **Correção**:
 ```bash
 # Usar flag --explain
-docker exec mekhanikube mekhanikube analyze --explain --language Portuguese
+docker exec NautiKube NautiKube analyze --explain --language Portuguese
 
 # Verificar saúde do Ollama
-docker exec mekhanikube-ollama ollama list
+docker exec NautiKube-ollama ollama list
 ```
 
 ---
@@ -119,17 +119,17 @@ Análise demorando muito.
 #### B. Modelo muito grande
 ```bash
 # Usar modelo mais leve
-docker exec mekhanikube-ollama ollama pull tinyllama
+docker exec NautiKube-ollama ollama pull tinyllama
 
 # Ou desativar explicações
-docker exec mekhanikube mekhanikube analyze
+docker exec NautiKube NautiKube analyze
 ```
 
 ---
 
 ##  Problemas Gerais do Sistema
 
-### 1. Mekhanikube Não Consegue Conectar à API Kubernetes
+### 1. NautiKube Não Consegue Conectar à API Kubernetes
 
 **Sintomas**:
 ```
@@ -148,7 +148,7 @@ ls ~/.kube/config
 kubectl cluster-info
 
 # Verificar se o contêiner pode ver o arquivo
-docker exec mekhanikube-k8sgpt ls -l /root/.kube/config
+docker exec NautiKube-k8sgpt ls -l /root/.kube/config
 ```
 
 **Correção**: Garantir que o caminho do kubeconfig no `docker-compose.yml` está correto:
@@ -163,7 +163,7 @@ volumes:
 
 **Correção**: O entrypoint.sh corrige isso automaticamente, mas verifique:
 ```bash
-docker exec mekhanikube-k8sgpt cat /root/.kube/config_mod
+docker exec NautiKube-k8sgpt cat /root/.kube/config_mod
 ```
 
 Deve mostrar `host.docker.internal` em vez de `127.0.0.1`.
@@ -172,10 +172,10 @@ Deve mostrar `host.docker.internal` em vez de `127.0.0.1`.
 
 ```bash
 # Testar do contêiner K8sGPT
-docker exec mekhanikube-k8sgpt kubectl cluster-info
+docker exec NautiKube-k8sgpt kubectl cluster-info
 
 # Testar resolução DNS
-docker exec mekhanikube-k8sgpt nslookup host.docker.internal
+docker exec NautiKube-k8sgpt nslookup host.docker.internal
 ```
 
 **Correção**: Garantir que seu cluster Kubernetes está rodando:
@@ -203,7 +203,7 @@ Connection refused on localhost:11434
 docker ps | grep ollama
 
 # Verificar logs do Ollama
-docker logs mekhanikube-ollama
+docker logs NautiKube-ollama
 
 # Testar API Ollama
 curl http://localhost:11434/api/tags
@@ -217,16 +217,16 @@ curl http://localhost:11434/api/tags
 docker-compose restart ollama
 
 # Verificar saúde
-docker inspect mekhanikube-ollama | grep Health -A 10
+docker inspect NautiKube-ollama | grep Health -A 10
 ```
 
 #### B. Modelo Não Carregado
 ```bash
 # Listar modelos instalados
-docker exec mekhanikube-ollama ollama list
+docker exec NautiKube-ollama ollama list
 
 # Instalar modelo se estiver faltando
-docker exec mekhanikube-ollama ollama pull gemma:7b
+docker exec NautiKube-ollama ollama pull gemma:7b
 ```
 
 #### C. Conflito de Porta
@@ -251,14 +251,14 @@ Error: no backend configured
 **Diagnóstico**:
 ```bash
 # Verificar status de autenticação do K8sGPT
-docker exec mekhanikube-k8sgpt k8sgpt auth list
+docker exec NautiKube-k8sgpt k8sgpt auth list
 ```
 
 **Correção**:
 ```bash
 # Reconfigurar backend
-docker exec mekhanikube-k8sgpt k8sgpt auth add --backend ollama --model gemma:7b --baseurl http://localhost:11434
-docker exec mekhanikube-k8sgpt k8sgpt auth default -p ollama
+docker exec NautiKube-k8sgpt k8sgpt auth add --backend ollama --model gemma:7b --baseurl http://localhost:11434
+docker exec NautiKube-k8sgpt k8sgpt auth default -p ollama
 ```
 
 ---
@@ -275,7 +275,7 @@ Error: failed to pull model
 #### A. Sem Conexão com Internet
 ```bash
 # Testar conectividade
-docker exec mekhanikube-ollama ping -c 3 ollama.ai
+docker exec NautiKube-ollama ping -c 3 ollama.ai
 ```
 
 #### B. Espaço em Disco Insuficiente
@@ -284,7 +284,7 @@ docker exec mekhanikube-ollama ping -c 3 ollama.ai
 docker system df
 
 # Verificar tamanho do volume
-docker volume inspect mekhanikube-ollama-data
+docker volume inspect NautiKube-ollama-data
 ```
 
 **Correção**:
@@ -301,9 +301,9 @@ docker system prune -a --volumes
 # Listar modelos disponíveis em: https://ollama.ai/library
 
 # Exemplos corretos:
-docker exec mekhanikube-ollama ollama pull gemma:7b
-docker exec mekhanikube-ollama ollama pull mistral
-docker exec mekhanikube-ollama ollama pull llama2
+docker exec NautiKube-ollama ollama pull gemma:7b
+docker exec NautiKube-ollama ollama pull mistral
+docker exec NautiKube-ollama ollama pull llama2
 ```
 
 ---
@@ -321,8 +321,8 @@ Error response from daemon: container exited immediately
 docker-compose logs
 
 # Logs de contêiner específico
-docker logs mekhanikube-k8sgpt
-docker logs mekhanikube-ollama
+docker logs NautiKube-k8sgpt
+docker logs NautiKube-ollama
 
 # Verificar configuração do Docker Compose
 docker-compose config
@@ -369,26 +369,26 @@ No problems detected
 #### A. Verificar Namespaces Específicos
 ```bash
 # Listar todos os namespaces
-docker exec mekhanikube-k8sgpt kubectl get namespaces
+docker exec NautiKube-k8sgpt kubectl get namespaces
 
 # Analisar namespace específico
-docker exec mekhanikube-k8sgpt k8sgpt analyze --namespace kube-system --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --namespace kube-system --explain
 ```
 
 #### B. Verificar Filtros Disponíveis
 ```bash
 # Listar todos os analisadores
-docker exec mekhanikube-k8sgpt k8sgpt filters list
+docker exec NautiKube-k8sgpt k8sgpt filters list
 
 # Tentar recursos específicos
-docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain
-docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Service --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --filter=Pod --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --filter=Service --explain
 ```
 
 #### C. Verificar se o Cluster Tem Recursos
 ```bash
 # Verificar se o cluster tem cargas de trabalho
-docker exec mekhanikube-k8sgpt kubectl get all --all-namespaces
+docker exec NautiKube-k8sgpt kubectl get all --all-namespaces
 ```
 
 ---
@@ -405,16 +405,16 @@ Issues detected but no AI explanations
 #### A. Verificar Flag --explain
 ```bash
 # Deve incluir --explain
-docker exec mekhanikube-k8sgpt k8sgpt analyze --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --explain
 
 # Ou manualmente:
-docker exec mekhanikube-k8sgpt k8sgpt analyze --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --explain
 ```
 
 #### B. Verificar Conexão do Backend
 ```bash
 # Verificar se o backend está ativo
-docker exec mekhanikube-k8sgpt k8sgpt auth list
+docker exec NautiKube-k8sgpt k8sgpt auth list
 
 # Deve mostrar:
 # Active: true
@@ -425,8 +425,8 @@ docker exec mekhanikube-k8sgpt k8sgpt auth list
 ```bash
 # Alguns modelos podem não funcionar bem
 # Modelos recomendados:
-docker exec mekhanikube-ollama ollama pull gemma:7b
-docker exec mekhanikube-ollama ollama pull mistral
+docker exec NautiKube-ollama ollama pull gemma:7b
+docker exec NautiKube-ollama ollama pull mistral
 ```
 
 ---
@@ -442,19 +442,19 @@ docker exec mekhanikube-ollama ollama pull mistral
 #### A. Usar Modelo Menor
 ```bash
 # Mais rápido mas menos preciso
-docker exec mekhanikube-ollama ollama pull tinyllama
+docker exec NautiKube-ollama ollama pull tinyllama
 
 # Balanceado
-docker exec mekhanikube-ollama ollama pull gemma:7b
+docker exec NautiKube-ollama ollama pull gemma:7b
 ```
 
 #### B. Limitar Escopo
 ```bash
 # Analisar um namespace
-docker exec mekhanikube-k8sgpt k8sgpt analyze --namespace default --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --namespace default --explain
 
 # Analisar tipo de recurso específico
-docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --filter=Pod --explain
 ```
 
 #### C. Alocar Mais Recursos
@@ -481,7 +481,7 @@ Error: permission denied
 **Correção**:
 ```bash
 # Verificar propriedade do volume
-docker volume inspect mekhanikube-ollama-data
+docker volume inspect NautiKube-ollama-data
 
 # Resetar permissões
 docker-compose down -v
@@ -527,19 +527,19 @@ docker-compose logs
 ### Acesso Shell Interativo
 ```bash
 # Contêiner K8sGPT
-docker exec -it mekhanikube-k8sgpt /bin/sh
+docker exec -it NautiKube-k8sgpt /bin/sh
 
 # Contêiner Ollama
-docker exec -it mekhanikube-ollama /bin/sh
+docker exec -it NautiKube-ollama /bin/sh
 ```
 
 ### Testar Conectividade
 ```bash
 # De K8sGPT para Ollama
-docker exec mekhanikube-k8sgpt curl -f http://localhost:11434/api/tags
+docker exec NautiKube-k8sgpt curl -f http://localhost:11434/api/tags
 
 # De K8sGPT para Kubernetes
-docker exec mekhanikube-k8sgpt kubectl get nodes
+docker exec NautiKube-k8sgpt kubectl get nodes
 ```
 
 ### Resetar Tudo
@@ -560,7 +560,7 @@ Se ainda estiver travado:
 1. **Verificar Logs**: `docker-compose logs`
 2. **Executar Verificação de Saúde**: `docker-compose ps`
 3. **Executar Testes**: Verificar conectividade básica
-4. **Pesquisar Issues**: [GitHub Issues](https://github.com/jorgegabrielti/mekhanikube/issues)
+4. **Pesquisar Issues**: [GitHub Issues](https://github.com/jorgegabrielti/NautiKube/issues)
 5. **Abrir Nova Issue**: Incluir:
    - SO e versão do Docker
    - Saída de `docker-compose ps`

@@ -2,13 +2,13 @@
 
 ## Questões Gerais
 
-### O que é o Mekhanikube?
+### O que é o NautiKube?
 
-Mekhanikube é uma solução containerizada **própria** desenvolvida em Go que analisa clusters Kubernetes e fornece explicações via IA local (Ollama). Versão 2.0 traz engine customizado que substitui o K8sGPT por uma solução 60% mais leve e 3x mais rápida.
+NautiKube é uma solução containerizada **própria** desenvolvida em Go que analisa clusters Kubernetes e fornece explicações via IA local (Ollama). Versão 2.0 traz engine customizado que substitui o K8sGPT por uma solução 60% mais leve e 3x mais rápida.
 
 ### Qual a diferença entre v1 e v2?
 
-**Mekhanikube v2.0 (atual)**:
+**NautiKube v2.0 (atual)**:
 - ✅ Engine próprio em Go (1.618 linhas)
 - ✅ Imagem ~80MB (60% menor)
 - ✅ Startup <10s (3x mais rápido)
@@ -22,13 +22,13 @@ Mekhanikube é uma solução containerizada **própria** desenvolvida em Go que 
 - Requer configuração manual
 - Disponível via `--profile k8sgpt`
 
-### Por que "Mekhanikube"?
+### Por que "NautiKube"?
 
 **Mekhani** (Grego: μηχανικός) = mecânico + **kube** (Kubernetes) = Seu mecânico Kubernetes!
 
 ### É gratuito?
 
-Sim! Mekhanikube é código aberto sob a Licença MIT. Ollama também é gratuito e de código aberto.
+Sim! NautiKube é código aberto sob a Licença MIT. Ollama também é gratuito e de código aberto.
 
 ### Ele envia meus dados para algum lugar?
 
@@ -60,7 +60,7 @@ Não! Tudo roda 100% localmente na sua máquina. Os dados do seu cluster nunca s
 
 ### Posso usar com qualquer cluster Kubernetes?
 
-Sim! Mekhanikube funciona com:
+Sim! NautiKube funciona com:
 - Clusters locais (Docker Desktop, Minikube, Kind)
 - Clusters na nuvem (EKS, GKE, AKS)
 - Clusters on-premise
@@ -68,7 +68,7 @@ Sim! Mekhanikube funciona com:
 
 ### Quanto tempo leva a configuração?
 
-**Mekhanikube v2.0**:
+**NautiKube v2.0**:
 - Primeira vez: ~10-15 minutos (incluindo download do modelo)
 - Inicializações subsequentes: <10 segundos
 - Mudanças de modelo: ~5-10 minutos por modelo
@@ -100,12 +100,12 @@ Sim! Instale múltiplos modelos:
 
 ```bash
 # Instalar modelos adicionais
-docker exec mekhanikube-ollama ollama pull gemma2:9b
-docker exec mekhanikube-ollama ollama pull mistral
+docker exec NautiKube-ollama ollama pull gemma2:9b
+docker exec NautiKube-ollama ollama pull mistral
 
-# Mekhanikube v2 usa automaticamente o modelo disponível
+# NautiKube v2 usa automaticamente o modelo disponível
 # Para K8sGPT, reconfigure o backend:
-docker exec mekhanikube-k8sgpt k8sgpt auth add --backend ollama --model gemma2:9b --baseurl http://localhost:11434
+docker exec NautiKube-k8sgpt k8sgpt auth add --backend ollama --model gemma2:9b --baseurl http://localhost:11434
 ```
 
 ### Com que frequência devo executar a análise?
@@ -120,32 +120,32 @@ docker exec mekhanikube-k8sgpt k8sgpt auth add --backend ollama --model gemma2:9
 
 Sim! Use filtros:
 
-**Mekhanikube v2.0**:
+**NautiKube v2.0**:
 ```bash
 # Analisar apenas Pods
-docker exec mekhanikube mekhanikube analyze --filter Pod --explain --language Portuguese
+docker exec NautiKube NautiKube analyze --filter Pod --explain --language Portuguese
 
 # Analisar apenas ConfigMaps
-docker exec mekhanikube mekhanikube analyze --filter ConfigMap --explain --language Portuguese
+docker exec NautiKube NautiKube analyze --filter ConfigMap --explain --language Portuguese
 
 # Namespace específico
-docker exec mekhanikube mekhanikube analyze -n production --explain --language Portuguese
+docker exec NautiKube NautiKube analyze -n production --explain --language Portuguese
 ```
 
 **K8sGPT (legado)**:
 ```bash
 # Com profile k8sgpt
-docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain --language Portuguese
+docker exec NautiKube-k8sgpt k8sgpt analyze --filter=Pod --explain --language Portuguese
 
 # Listar filtros disponíveis
-docker exec mekhanikube-k8sgpt k8sgpt filters list
+docker exec NautiKube-k8sgpt k8sgpt filters list
 ```
 
-> 💡 Mekhanikube v2 tem suporte nativo ao português, mas você pode especificar `--language Portuguese` ou `--language English`.
+> 💡 NautiKube v2 tem suporte nativo ao português, mas você pode especificar `--language Portuguese` ou `--language English`.
 
 ### Que tipos de problemas ele pode detectar?
 
-**Mekhanikube v2.0 detecta**:
+**NautiKube v2.0 detecta**:
 - **Pods**: 
   - CrashLoopBackOff
   - ImagePullBackOff
@@ -159,7 +159,7 @@ docker exec mekhanikube-k8sgpt k8sgpt filters list
 - **StatefulSets**, **HPA**, **NetworkPolicies**
 - E mais tipos de recursos
 
-> 💡 Mekhanikube v2 é focado nos problemas mais comuns (Pods e ConfigMaps). Novos scanners podem ser adicionados facilmente.
+> 💡 NautiKube v2 é focado nos problemas mais comuns (Pods e ConfigMaps). Novos scanners podem ser adicionados facilmente.
 
 ---
 
@@ -167,8 +167,8 @@ docker exec mekhanikube-k8sgpt k8sgpt filters list
 
 ### Como funciona?
 
-**Mekhanikube v2.0**:
-1. CLI recebe comando `mekhanikube analyze`
+**NautiKube v2.0**:
+1. CLI recebe comando `NautiKube analyze`
 2. Scanner conecta à API Kubernetes via client-go
 3. Detecta problemas em Pods e ConfigMaps
 4. Analyzer aplica filtros (se especificados)
@@ -185,7 +185,7 @@ docker exec mekhanikube-k8sgpt k8sgpt filters list
 
 ### Ele modifica meu cluster?
 
-**Não!** Mekhanikube é somente leitura. Ele:
+**Não!** NautiKube é somente leitura. Ele:
 - ✅ Lê o estado do cluster
 - ✅ Analisa configurações
 - ✅ Gera relatórios
@@ -202,11 +202,11 @@ K8sGPT requer acesso **somente leitura** aos recursos do cluster. As mesmas perm
 Sim! Exemplo:
 
 ```yaml
-# GitLab CI - Mekhanikube v2
+# GitLab CI - NautiKube v2
 k8s-analysis:
   script:
     - docker-compose up -d
-    - docker exec mekhanikube mekhanikube analyze --explain --language Portuguese > report.txt
+    - docker exec NautiKube NautiKube analyze --explain --language Portuguese > report.txt
   artifacts:
     paths:
       - report.txt
@@ -215,7 +215,7 @@ k8s-analysis:
 k8s-analysis-legacy:
   script:
     - docker-compose --profile k8sgpt up -d
-    - docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --language Portuguese > report.txt
+    - docker exec NautiKube-k8sgpt k8sgpt analyze --explain --language Portuguese > report.txt
   artifacts:
     paths:
       - report.txt
@@ -223,14 +223,14 @@ k8s-analysis-legacy:
 
 ### As análises são sempre em português?
 
-**Mekhanikube v2.0**: Suporte nativo ao português! Basta usar `--language Portuguese` (ou omitir para inglês).
+**NautiKube v2.0**: Suporte nativo ao português! Basta usar `--language Portuguese` (ou omitir para inglês).
 
 ```bash
 # Português (recomendado)
-docker exec mekhanikube mekhanikube analyze --explain --language Portuguese
+docker exec NautiKube NautiKube analyze --explain --language Portuguese
 
 # Inglês
-docker exec mekhanikube mekhanikube analyze --explain --language English
+docker exec NautiKube NautiKube analyze --explain --language English
 ```
 
 **K8sGPT (legado)**: Requer flag `--language Portuguese` explicitamente.
@@ -244,11 +244,11 @@ docker exec mekhanikube mekhanikube analyze --explain --language English
 Sim! Redirecione a saída:
 
 ```bash
-# Mekhanikube v2 - Salvar em arquivo
-docker exec mekhanikube mekhanikube analyze --explain --language Portuguese > analysis.txt
+# NautiKube v2 - Salvar em arquivo
+docker exec NautiKube NautiKube analyze --explain --language Portuguese > analysis.txt
 
 # K8sGPT - JSON
-docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --output json --language Portuguese > analysis.json
+docker exec NautiKube-k8sgpt k8sgpt analyze --explain --output json --language Portuguese > analysis.json
 ```
 
 ---
@@ -266,29 +266,29 @@ docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --output json --language
 **Otimização**:
 ```bash
 # Usar modelo menor
-docker exec mekhanikube-ollama ollama pull tinyllama
+docker exec NautiKube-ollama ollama pull tinyllama
 
 # Limitar escopo
-docker exec mekhanikube-k8sgpt k8sgpt analyze --namespace default --explain
-docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --namespace default --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --filter=Pod --explain
 ```
 
 ### Diz "nenhum problema encontrado" mas sei que há problemas
 
 1. **Verificar namespace**: Padrão é todos os namespaces
    ```bash
-   docker exec mekhanikube-k8sgpt k8sgpt analyze --namespace seu-namespace --explain
+   docker exec NautiKube-k8sgpt k8sgpt analyze --namespace seu-namespace --explain
    ```
 
 2. **Tentar filtros diferentes**: Alguns problemas precisam de analisadores específicos
    ```bash
-   docker exec mekhanikube-k8sgpt k8sgpt filters list
-   docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod --explain
+   docker exec NautiKube-k8sgpt k8sgpt filters list
+   docker exec NautiKube-k8sgpt k8sgpt analyze --filter=Pod --explain
    ```
 
 3. **Verificar acesso ao cluster**:
    ```bash
-   docker exec mekhanikube-k8sgpt kubectl get pods --all-namespaces
+   docker exec NautiKube-k8sgpt kubectl get pods --all-namespaces
    ```
 
 ### Ollama continua baixando modelos
@@ -326,10 +326,10 @@ K8sGPT usa analisadores integrados. Para habilitar/desabilitar:
 
 ```bash
 # Listar filtros disponíveis
-docker exec mekhanikube-k8sgpt k8sgpt filters list
+docker exec NautiKube-k8sgpt k8sgpt filters list
 
 # Usar filtros específicos
-docker exec mekhanikube-k8sgpt k8sgpt analyze --filter=Pod,Service --explain
+docker exec NautiKube-k8sgpt k8sgpt analyze --filter=Pod,Service --explain
 ```
 
 ### Posso usar um backend LLM diferente?
@@ -342,7 +342,7 @@ Sim! K8sGPT suporta:
 
 Exemplo para OpenAI:
 ```bash
-docker exec mekhanikube-k8sgpt k8sgpt auth add \
+docker exec NautiKube-k8sgpt k8sgpt auth add \
   --backend openai \
   --model gpt-4 \
   --password SUA_API_KEY
@@ -353,13 +353,13 @@ docker exec mekhanikube-k8sgpt k8sgpt auth add \
 ```bash
 # Backup dos modelos Ollama
 docker run --rm \
-  -v mekhanikube-ollama-data:/data \
+  -v NautiKube-ollama-data:/data \
   -v ${PWD}:/backup \
   alpine tar czf /backup/ollama-backup.tar.gz /data
 
 # Backup da config K8sGPT
 docker run --rm \
-  -v mekhanikube-k8sgpt-config:/data \
+  -v NautiKube-k8sgpt-config:/data \
   -v ${PWD}:/backup \
   alpine tar czf /backup/k8sgpt-backup.tar.gz /data
 ```
@@ -370,8 +370,8 @@ Sim, mas altere os nomes dos contêineres para evitar conflitos:
 
 ```bash
 # No arquivo .env
-CONTAINER_NAME_OLLAMA=mekhanikube-ollama-2
-CONTAINER_NAME_K8SGPT=mekhanikube-k8sgpt-2
+CONTAINER_NAME_OLLAMA=NautiKube-ollama-2
+CONTAINER_NAME_K8SGPT=NautiKube-k8sgpt-2
 OLLAMA_PORT=11435
 ```
 
@@ -454,7 +454,7 @@ Sim:
 
 ### Quais dados são coletados?
 
-**Nenhum!** Mekhanikube:
+**Nenhum!** NautiKube:
 - ❌ Sem telemetria
 - ❌ Sem analytics
 - ❌ Sem conexões externas (exceto downloads de modelos)
@@ -487,7 +487,7 @@ Veja [CONTRIBUTING.md](../CONTRIBUTING.md) para:
 
 ### Onde reporto bugs?
 
-Abra uma issue no [GitHub Issues](https://github.com/jorgegabrielti/mekhanikube/issues) com:
+Abra uma issue no [GitHub Issues](https://github.com/jorgegabrielti/NautiKube/issues) com:
 - SO e versão do Docker
 - Saída de `docker-compose ps`
 - Passos para reproduzir
@@ -505,7 +505,7 @@ Sim! Abra uma GitHub Issue com:
 
 1. Verifique este FAQ
 2. Leia [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
-3. Pesquise [issues existentes](https://github.com/jorgegabrielti/mekhanikube/issues)
+3. Pesquise [issues existentes](https://github.com/jorgegabrielti/NautiKube/issues)
 4. Abra uma nova issue
 5. Participe das discussões
 
@@ -530,27 +530,27 @@ Ainda não, mas fique ligado! Enquanto isso, contribuições e estrelas no GitHu
 
 ## Comparação com Outras Ferramentas
 
-### Mekhanikube vs kubectl
+### NautiKube vs kubectl
 
 - **kubectl**: Comandos de baixo nível, interpretação manual
-- **Mekhanikube**: Análise automatizada com explicações de IA
+- **NautiKube**: Análise automatizada com explicações de IA
 
-### Mekhanikube vs K9s
+### NautiKube vs K9s
 
 - **K9s**: TUI interativa para gerenciamento de cluster
-- **Mekhanikube**: Detecção automatizada de problemas com IA
+- **NautiKube**: Detecção automatizada de problemas com IA
 
-### Mekhanikube vs Lens
+### NautiKube vs Lens
 
 - **Lens**: IDE desktop GUI para Kubernetes
-- **Mekhanikube**: Ferramenta CLI com análise de IA
+- **NautiKube**: Ferramenta CLI com análise de IA
 
-### Mekhanikube vs Prometheus/Grafana
+### NautiKube vs Prometheus/Grafana
 
 - **Prometheus/Grafana**: Métricas e monitoramento
-- **Mekhanikube**: Detecção e explicação de problemas
+- **NautiKube**: Detecção e explicação de problemas
 
-**Eles se complementam!** Use Mekhanikube para diagnósticos junto com suas ferramentas existentes.
+**Eles se complementam!** Use NautiKube para diagnósticos junto com suas ferramentas existentes.
 
 ---
 
@@ -560,7 +560,7 @@ Ainda não, mas fique ligado! Enquanto isso, contribuições e estrelas no GitHu
 - 🔧 [Guia de Solução de Problemas](TROUBLESHOOTING.md)
 - 🤝 [Diretrizes de Contribuição](../CONTRIBUTING.md)
 - 📝 [Histórico de Mudanças](../CHANGELOG.md)
-- 🐙 [Repositório GitHub](https://github.com/jorgegabrielti/mekhanikube)
+- 🐙 [Repositório GitHub](https://github.com/jorgegabrielti/NautiKube)
 - 🔗 [Documentação K8sGPT](https://docs.k8sgpt.ai/)
 - 🦙 [Documentação Ollama](https://github.com/ollama/ollama)
 

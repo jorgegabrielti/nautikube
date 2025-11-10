@@ -1,18 +1,18 @@
-# Contribuindo para o mekhanikube 🔧
+# Contribuindo para o NautiKube 🔧
 
-Obrigado pelo seu interesse em contribuir com o mekhanikube!
+Obrigado pelo seu interesse em contribuir com o NautiKube!
 
 ## Como Contribuir
 
 ### Reportando Problemas
 - Use GitHub Issues para reportar bugs
 - Inclua seu SO, versão do Docker e versão do Kubernetes
-- Especifique se está usando Mekhanikube v2 ou K8sGPT legacy
+- Especifique se está usando NautiKube v2 ou K8sGPT legacy
 - Forneça passos para reproduzir o problema
 - Inclua logs relevantes:
-  - `docker logs mekhanikube` (v2)
-  - `docker logs mekhanikube-k8sgpt` (legacy)
-  - `docker logs mekhanikube-ollama`
+  - `docker logs NautiKube` (v2)
+  - `docker logs NautiKube-k8sgpt` (legacy)
+  - `docker logs NautiKube-ollama`
 
 ### Sugerindo Funcionalidades
 - Abra uma GitHub Issue com o rótulo "enhancement"
@@ -29,52 +29,52 @@ Obrigado pelo seu interesse em contribuir com o mekhanikube!
 
 ### Configuração de Desenvolvimento
 
-#### Desenvolvimento Go (Mekhanikube v2)
+#### Desenvolvimento Go (NautiKube v2)
 
 ```bash
 # Clone seu fork
-git clone https://github.com/SEU_USUARIO/mekhanikube.git
-cd mekhanikube
+git clone https://github.com/SEU_USUARIO/NautiKube.git
+cd NautiKube
 
 # Instalar dependências Go
 go mod download
 
 # Compilar localmente
-go build -o mekhanikube ./cmd/mekhanikube
+go build -o NautiKube ./cmd/NautiKube
 
 # Testar localmente (requer cluster K8s ativo)
-./mekhanikube analyze --explain --language Portuguese
+./NautiKube analyze --explain --language Portuguese
 
 # Ou executar diretamente
-go run ./cmd/mekhanikube/main.go analyze --explain --language Portuguese
+go run ./cmd/NautiKube/main.go analyze --explain --language Portuguese
 ```
 
 #### Desenvolvimento Docker
 
 ```bash
-# Construir imagem Mekhanikube
-docker build -f configs/Dockerfile.mekhanikube -t mekhanikube:dev .
+# Construir imagem NautiKube
+docker build -f configs/Dockerfile.NautiKube -t NautiKube:dev .
 
 # Iniciar stack completa
 docker-compose up -d
 
 # Baixar modelo
-docker exec mekhanikube-ollama ollama pull llama3.1:8b
+docker exec NautiKube-ollama ollama pull llama3.1:8b
 
-# Testar Mekhanikube v2
-docker exec mekhanikube mekhanikube analyze --explain --language Portuguese
+# Testar NautiKube v2
+docker exec NautiKube NautiKube analyze --explain --language Portuguese
 
 # Testar K8sGPT legacy (se usar profile)
 docker-compose --profile k8sgpt up -d
-docker exec mekhanikube-k8sgpt k8sgpt analyze --explain --language Portuguese
+docker exec NautiKube-k8sgpt k8sgpt analyze --explain --language Portuguese
 ```
 
 ## Estrutura do Código
 
 ```
-mekhanikube/
+NautiKube/
 ├── cmd/
-│   └── mekhanikube/
+│   └── NautiKube/
 │       └── main.go              # Entry point, CLI
 ├── internal/
 │   ├── scanner/                 # Scanners de recursos K8s
@@ -83,8 +83,8 @@ mekhanikube/
 ├── pkg/
 │   └── types/                   # Tipos compartilhados
 ├── configs/
-│   ├── Dockerfile.mekhanikube
-│   └── entrypoint-mekhanikube.sh
+│   ├── Dockerfile.NautiKube
+│   └── entrypoint-NautiKube.sh
 └── docs/                        # Documentação
 ```
 
@@ -136,7 +136,7 @@ golangci-lint run
 2. Testar com cluster Kubernetes local (Docker Desktop, Minikube, Kind)
 3. Verificar todos os comandos do README.md
 4. Testar cenários de erro (cluster offline, Ollama offline)
-5. Verificar logs sem erros (`docker logs mekhanikube`)
+5. Verificar logs sem erros (`docker logs NautiKube`)
 
 ### Testes Funcionais
 1. Criar pods com problemas intencionais

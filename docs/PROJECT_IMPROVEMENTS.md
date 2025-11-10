@@ -2,7 +2,7 @@
 
 ## 📊 Resumo das Melhorias
 
-Este documento descreve as melhorias profissionais aplicadas ao Mekhanikube para torná-lo um projeto maduro e pronto para produção.
+Este documento descreve as melhorias profissionais aplicadas ao NautiKube para torná-lo um projeto maduro e pronto para produção.
 
 ## 🚀 v2.0.0 - Engine Próprio (2025-01)
 
@@ -19,7 +19,7 @@ Este documento descreve as melhorias profissionais aplicadas ao Mekhanikube para
 ### Estrutura Go Profissional
 
 **Organização modular**:
-- `cmd/mekhanikube/` - CLI com Cobra framework
+- `cmd/NautiKube/` - CLI com Cobra framework
 - `internal/scanner/` - Scanners de recursos K8s
 - `internal/analyzer/` - Coordenação de análise
 - `internal/ollama/` - Cliente HTTP para IA
@@ -58,7 +58,7 @@ Este documento descreve as melhorias profissionais aplicadas ao Mekhanikube para
 ### Recursos Visuais
 
 **Identidade de marca**:
-- Logo oficial Mekhanikube (assets/logo.png)
+- Logo oficial NautiKube (assets/logo.png)
 - 800px width no README.md
 - Branding consistente na documentação
 
@@ -152,7 +152,7 @@ Scripts bash prontos para uso:
 ## 📁 Estrutura Final do Projeto
 
 ```
-mekhanikube/
+NautiKube/
 ├── docs/                    # 📚 Documentação completa
 ├── scripts/                 # 🔧 Scripts utilitários
 ├── configs/                 # ⚙️ Configurações
@@ -286,7 +286,7 @@ make clean
 
 ## ✨ Conclusão
 
-O Mekhanikube evoluiu de um projeto funcional para uma solução profissional e madura, pronta para ser usada em ambientes de produção. Com documentação abrangente, automação completa e atenção aos detalhes, o projeto está preparado para crescer e escalar com sua comunidade.
+O NautiKube evoluiu de um projeto funcional para uma solução profissional e madura, pronta para ser usada em ambientes de produção. Com documentação abrangente, automação completa e atenção aos detalhes, o projeto está preparado para crescer e escalar com sua comunidade.
 
 **Status**: 🚀 Pronto para Produção
 

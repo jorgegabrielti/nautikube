@@ -3,11 +3,11 @@ version: '3.8'
 services:
   ollama:
     image: ollama/ollama:${OLLAMA_VERSION:-latest}
-    container_name: ${CONTAINER_NAME_OLLAMA:-mekhanikube-ollama}
+    container_name: ${CONTAINER_NAME_OLLAMA:-nautikube-ollama}
     ports:
       - "${OLLAMA_PORT:-11434}:11434"
     volumes:
-      - mekhanikube-ollama-data:/root/.ollama
+      - nautikube-ollama-data:/root/.ollama
     environment:
       - OLLAMA_HOST=0.0.0.0:11434
     restart: ${RESTART_POLICY:-unless-stopped}
@@ -18,11 +18,11 @@ services:
       retries: 5
       start_period: 30s
 
-  mekhanikube:
+  nautikube:
     build:
       context: .
-      dockerfile: configs/Dockerfile.mekhanikube
-    container_name: ${CONTAINER_NAME_MEKHANIKUBE:-mekhanikube}
+      dockerfile: configs/Dockerfile.nautikube
+    container_name: ${CONTAINER_NAME_NAUTIKUBE:-nautikube}
     depends_on:
       ollama:
         condition: service_healthy
@@ -33,13 +33,13 @@ services:
     network_mode: ${NETWORK_MODE:-host}
     restart: ${RESTART_POLICY:-unless-stopped}
     healthcheck:
-      test: ["CMD", "mekhanikube", "version"]
+      test: ["CMD", "nautikube", "version"]
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 10s
 
 volumes:
-  mekhanikube-ollama-data:
+  nautikube-ollama-data:
     driver: local
 

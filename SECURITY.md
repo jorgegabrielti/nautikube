@@ -2,7 +2,7 @@
 
 ## Versões Suportadas
 
-As seguintes versões do Mekhanikube estão atualmente recebendo atualizações de segurança:
+As seguintes versões do NautiKube estão atualmente recebendo atualizações de segurança:
 
 | Versão  | Suportada          | Observações |
 | ------- | ------------------ | ----------- |
@@ -13,7 +13,7 @@ As seguintes versões do Mekhanikube estão atualmente recebendo atualizações 
 
 ### Implantação Apenas Local
 
-O Mekhanikube foi projetado para ser executado **localmente** na sua infraestrutura. Não deve ser exposto à internet pública.
+O NautiKube foi projetado para ser executado **localmente** na sua infraestrutura. Não deve ser exposto à internet pública.
 
 **Recursos de Segurança Principais**:
 - ✅ Nenhuma chamada de API externa (exceto downloads de modelos do Ollama)
@@ -22,7 +22,7 @@ O Mekhanikube foi projetado para ser executado **localmente** na sua infraestrut
 - ✅ Acesso somente leitura ao cluster Kubernetes
 - ✅ Kubeconfig montado como somente leitura
 
-### O que o Mekhanikube NÃO Faz
+### O que o NautiKube NÃO Faz
 
 - ❌ Não modifica seu cluster Kubernetes
 - ❌ Não envia dados para serviços externos
@@ -31,7 +31,7 @@ O Mekhanikube foi projetado para ser executado **localmente** na sua infraestrut
 
 ## Reportar uma Vulnerabilidade
 
-Se você descobrir uma vulnerabilidade de segurança no Mekhanikube, por favor reporte-a de forma responsável:
+Se você descobrir uma vulnerabilidade de segurança no NautiKube, por favor reporte-a de forma responsável:
 
 ### Como Reportar
 
@@ -96,7 +96,7 @@ Se você descobrir uma vulnerabilidade de segurança no Mekhanikube, por favor r
 
 3. **Atualizações Regulares**
    ```bash
-   # Mantenha o Mekhanikube atualizado
+   # Mantenha o NautiKube atualizado
    git pull origin main
    make build
    make restart
@@ -105,7 +105,7 @@ Se você descobrir uma vulnerabilidade de segurança no Mekhanikube, por favor r
 4. **Limitar Acesso ao Cluster**
    ```bash
    # Use service account com permissões somente leitura
-   # Crie kubeconfig dedicado para o Mekhanikube
+   # Crie kubeconfig dedicado para o NautiKube
    ```
 
 5. **Monitorar Logs**
@@ -141,7 +141,7 @@ Se você descobrir uma vulnerabilidade de segurança no Mekhanikube, por favor r
 
 ### Verificações Automáticas de Segurança
 
-O Mekhanikube inclui:
+O NautiKube inclui:
 
 - **Varredura de vulnerabilidades Trivy** (no CI/CD)
 - **ShellCheck** para lint de scripts
@@ -183,7 +183,7 @@ Antes de cada lançamento:
 
 ### 2. Acesso ao Socket do Docker (Não Necessário)
 
-**Status**: O Mekhanikube NÃO requer acesso ao socket do Docker.
+**Status**: O NautiKube NÃO requer acesso ao socket do Docker.
 
 **Se você ver solicitações para `/var/run/docker.sock`**: Isso não é necessário e não deve ser concedido.
 
@@ -218,7 +218,7 @@ Reconhecemos pesquisadores de segurança que divulgam vulnerabilidades de forma 
 
 ### Privacidade de Dados
 
-O Mekhanikube foi projetado para privacidade:
+O NautiKube foi projetado para privacidade:
 - Sem coleta de dados
 - Sem comunicações externas
 - Sem telemetria
@@ -229,7 +229,7 @@ O Mekhanikube foi projetado para privacidade:
 Para fins de conformidade:
 ```bash
 # Todas as ações são registradas
-docker logs mekhanikube
+docker logs NautiKube
 
 # Logs de auditoria da API Kubernetes (no seu cluster)
 kubectl logs -n kube-system kube-apiserver-*

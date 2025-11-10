@@ -1,18 +1,29 @@
 # Histórico de Mudanças
 
-Todas as mudanças notáveis do mekhanikube serão documentadas neste arquivo.
+Todas as mudanças notáveis do NautiKube serão documentadas neste arquivo.
 
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 e este projeto segue [Versionamento Semântico](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2025-01-10
+
+### 🎨 Rebranding
+- **Renomeado de Mekhanikube para NautiKube**
+  - Nome alinha melhor com a natureza read-only da ferramenta (navegador/explorador vs mecânico/reparador)
+  - Mantém tradição grega e temática náutica do Kubernetes
+  - Binário agora é `nautikube` (antes `mekhanikube`)
+  - Containers: `nautikube` e `nautikube-ollama`
+  - Variáveis de ambiente: `NAUTIKUBE_*` (antes `MEKHANIKUBE_*`)
+  - Atualização completa de documentação, configurações e código
+
 ## [2.0.0] - 2025-01-XX
 
 ### 🎯 BREAKING CHANGES - Engine Próprio
-Mekhanikube v2.0 traz engine customizado em Go substituindo K8sGPT como solução padrão.
+NautiKube v2.0 traz engine customizado em Go substituindo K8sGPT como solução padrão.
 
 ### ✨ Adicionado
 - **Engine próprio em Go** (1.618 linhas de código)
-  - `cmd/mekhanikube/main.go`: CLI com framework Cobra
+  - `cmd/NautiKube/main.go`: CLI com framework Cobra
   - `internal/scanner/scanner.go`: Scanner de recursos K8s via client-go
   - `internal/analyzer/analyzer.go`: Coordenador de análise
   - `internal/ollama/client.go`: Cliente HTTP para Ollama
@@ -35,11 +46,11 @@ Mekhanikube v2.0 traz engine customizado em Go substituindo K8sGPT como soluçã
 - **Manutenção**: Código próprio = controle total sobre features
 
 ### 🔄 Alterado
-- **Comando padrão**: `mekhanikube analyze` substitui `k8sgpt analyze`
-- **Container padrão**: `mekhanikube` ao invés de `mekhanikube-k8sgpt`
+- **Comando padrão**: `NautiKube analyze` substitui `k8sgpt analyze`
+- **Container padrão**: `NautiKube` ao invés de `NautiKube-k8sgpt`
 - **Modelo padrão**: llama3.1:8b (melhor suporte a português)
 - **Profiles Docker Compose**: 
-  - Padrão: Mekhanikube v2
+  - Padrão: NautiKube v2
   - Legacy: K8sGPT via `--profile k8sgpt`
 
 ### 🐛 Corrigido
@@ -51,7 +62,7 @@ Mekhanikube v2.0 traz engine customizado em Go substituindo K8sGPT como soluçã
 - README.md: Atualizado com comparações v1 vs v2
 - ARCHITECTURE.md: Reescrito para refletir nova arquitetura
 - FAQ.md: Adicionadas seções "Qual a diferença entre v1 e v2?"
-- TROUBLESHOOTING.md: Seção dedicada para Mekhanikube v2
+- TROUBLESHOOTING.md: Seção dedicada para NautiKube v2
 - CONTRIBUTING.md: Atualizado para desenvolvimento Go
 
 ### 🔧 Recursos Detectados (v2.0)
@@ -72,14 +83,14 @@ Mekhanikube v2.0 traz engine customizado em Go substituindo K8sGPT como soluçã
 - k8s.io/api v0.29.0
 - k8s.io/apimachinery v0.29.0
 
-[2.0.0]: https://github.com/jorgegabrielti/mekhanikube/releases/tag/v2.0.0
+[2.0.0]: https://github.com/jorgegabrielti/NautiKube/releases/tag/v2.0.0
 
 ---
 
 ## [1.0.0] - 2025-11-09
 
 ### Adicionado
-- Lançamento inicial do mekhanikube 🔧
+- Lançamento inicial do NautiKube 🔧
 - Configuração Docker Compose com K8sGPT e Ollama
 - Ajuste automático de kubeconfig para contêineres Docker
 - Auto-configuração da autenticação K8sGPT na inicialização
@@ -103,5 +114,5 @@ Mekhanikube v2.0 traz engine customizado em Go substituindo K8sGPT como soluçã
 - Modelos: gemma:7b (5GB)
 - Imagens base: golang:1.23-alpine, alpine:latest
 
-[1.0.0]: https://github.com/jorgegabrielti/mekhanikube/releases/tag/v1.0.0
+[1.0.0]: https://github.com/jorgegabrielti/NautiKube/releases/tag/v1.0.0
 

@@ -1,7 +1,7 @@
 .PHONY: help build run test clean docker-build docker-up docker-down analyze health logs install dev
 
 # Variables
-BINARY_NAME=mekhanikube
+BINARY_NAME=nautikube
 GO_FILES=$(shell find . -name '*.go' -type f)
 DOCKER_COMPOSE=docker-compose
 
@@ -14,7 +14,7 @@ NC=\033[0m # No Color
 
 ## help: Display this help message
 help:
-	@echo "$(CYAN)Mekhanikube v2.0 - Makefile$(NC)"
+	@echo "$(CYAN)NautiKube v2.0 - Makefile$(NC)"
 	@echo ""
 	@echo "$(GREEN)Available targets:$(NC)"
 	@echo ""
@@ -23,13 +23,13 @@ help:
 
 ## build: Build the Go binary locally
 build:
-	@echo "$(CYAN)Building Mekhanikube binary...$(NC)"
-	@go build -o $(BINARY_NAME) ./cmd/mekhanikube
+	@echo "$(CYAN)Building NautiKube binary...$(NC)"
+	@go build -o $(BINARY_NAME) ./cmd/nautikube
 	@echo "$(GREEN)✓ Build complete: ./$(BINARY_NAME)$(NC)"
 
-## run: Run Mekhanikube locally (requires cluster access)
+## run: Run NautiKube locally (requires cluster access)
 run: build
-	@echo "$(CYAN)Running Mekhanikube...$(NC)"
+	@echo "$(CYAN)Running NautiKube...$(NC)"
 	@./$(BINARY_NAME) analyze --explain --language Portuguese
 
 ## test: Run Go tests
@@ -76,12 +76,12 @@ clean:
 ## docker-build: Build Docker image
 docker-build:
 	@echo "$(CYAN)Building Docker image...$(NC)"
-	@docker build -f configs/Dockerfile.mekhanikube -t mekhanikube:latest .
-	@echo "$(GREEN)✓ Docker image built: mekhanikube:latest$(NC)"
+	@docker build -f configs/Dockerfile.nautikube -t nautikube:latest .
+	@echo "$(GREEN)✓ Docker image built: nautikube:latest$(NC)"
 
-## docker-up: Start all services (Mekhanikube v2 + Ollama)
+## docker-up: Start all services (NautiKube v2 + Ollama)
 docker-up:
-	@echo "$(CYAN)Starting Mekhanikube v2 services...$(NC)"
+	@echo "$(CYAN)Starting NautiKube v2 services...$(NC)"
 	@$(DOCKER_COMPOSE) up -d
 	@echo "$(GREEN)✓ Services started$(NC)"
 	@echo "$(YELLOW)Run 'make analyze' to analyze your cluster$(NC)"
@@ -95,46 +95,46 @@ docker-down:
 ## docker-restart: Restart all services
 docker-restart: docker-down docker-up
 
-## analyze: Run Mekhanikube analysis (Portuguese)
+## analyze: Run NautiKube analysis (Portuguese)
 analyze:
-	@echo "$(CYAN)Running Mekhanikube analysis...$(NC)"
-	@docker exec mekhanikube $(BINARY_NAME) analyze --explain --language Portuguese
+	@echo "$(CYAN)Running NautiKube analysis...$(NC)"
+	@docker exec nautikube $(BINARY_NAME) analyze --explain --language Portuguese
 
-## analyze-en: Run Mekhanikube analysis (English)
+## analyze-en: Run NautiKube analysis (English)
 analyze-en:
-	@echo "$(CYAN)Running Mekhanikube analysis...$(NC)"
-	@docker exec mekhanikube $(BINARY_NAME) analyze --explain --language English
+	@echo "$(CYAN)Running NautiKube analysis...$(NC)"
+	@docker exec nautikube $(BINARY_NAME) analyze --explain --language English
 
 ## analyze-quick: Run quick analysis (no AI explanations)
 analyze-quick:
 	@echo "$(CYAN)Running quick analysis...$(NC)"
-	@docker exec mekhanikube $(BINARY_NAME) analyze
+	@docker exec nautikube $(BINARY_NAME) analyze
 
 ## health: Check health of all services
 health:
 	@echo "$(CYAN)Checking services health...$(NC)"
 	@echo ""
 	@echo "$(GREEN)Ollama:$(NC)"
-	@docker exec mekhanikube-ollama ollama list || echo "$(RED)✗ Ollama not running$(NC)"
+	@docker exec nautikube-ollama ollama list || echo "$(RED)✗ Ollama not running$(NC)"
 	@echo ""
-	@echo "$(GREEN)Mekhanikube:$(NC)"
-	@docker exec mekhanikube $(BINARY_NAME) version || echo "$(RED)✗ Mekhanikube not running$(NC)"
+	@echo "$(GREEN)NautiKube:$(NC)"
+	@docker exec nautikube $(BINARY_NAME) version || echo "$(RED)✗ NautiKube not running$(NC)"
 	@echo ""
 	@echo "$(GREEN)Kubernetes:$(NC)"
-	@docker exec mekhanikube kubectl get nodes || echo "$(RED)✗ Cannot connect to cluster$(NC)"
+	@docker exec nautikube kubectl get nodes || echo "$(RED)✗ Cannot connect to cluster$(NC)"
 
 ## logs: Show logs from all services
 logs:
 	@echo "$(CYAN)Showing logs (Ctrl+C to exit)...$(NC)"
 	@$(DOCKER_COMPOSE) logs -f
 
-## logs-mekhanikube: Show Mekhanikube logs only
-logs-mekhanikube:
-	@docker logs -f mekhanikube
+## logs-nautikube: Show NautiKube logs only
+logs-nautikube:
+	@docker logs -f nautikube
 
 ## logs-ollama: Show Ollama logs only
 logs-ollama:
-	@docker logs -f mekhanikube-ollama
+	@docker logs -f nautikube-ollama
 
 ## pull-model: Pull a specific Ollama model (usage: make pull-model MODEL=llama3.1:8b)
 pull-model:
@@ -144,7 +144,7 @@ pull-model:
 		exit 1; \
 	fi
 	@echo "$(CYAN)Pulling model $(MODEL)...$(NC)"
-	@docker exec mekhanikube-ollama ollama pull $(MODEL)
+	@docker exec nautikube-ollama ollama pull $(MODEL)
 	@echo "$(GREEN)✓ Model $(MODEL) pulled$(NC)"
 
 ## install: Install dependencies and setup
@@ -161,21 +161,21 @@ dev: install
 	@echo "$(GREEN)✓ Development environment ready$(NC)"
 	@echo "$(YELLOW)Edit .env file with your configuration$(NC)"
 
-## version: Show Mekhanikube version
+## version: Show NautiKube version
 version:
-	@docker exec mekhanikube $(BINARY_NAME) version 2>/dev/null || ./$(BINARY_NAME) version 2>/dev/null || echo "$(YELLOW)Build first: make build$(NC)"
+	@docker exec nautikube $(BINARY_NAME) version 2>/dev/null || ./$(BINARY_NAME) version 2>/dev/null || echo "$(YELLOW)Build first: make build$(NC)"
 
 ## ps: Show running containers
 ps:
 	@$(DOCKER_COMPOSE) ps
 
-## shell-mekhanikube: Open shell in Mekhanikube container
-shell-mekhanikube:
-	@docker exec -it mekhanikube /bin/sh
+## shell-nautikube: Open shell in NautiKube container
+shell-nautikube:
+	@docker exec -it nautikube /bin/sh
 
 ## shell-ollama: Open shell in Ollama container
 shell-ollama:
-	@docker exec -it mekhanikube-ollama /bin/sh
+	@docker exec -it nautikube-ollama /bin/sh
 
 ## prune: Clean up Docker resources (volumes, images)
 prune:

@@ -7,14 +7,14 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/jorgegabrielti/mekhanikube/internal/analyzer"
-	"github.com/jorgegabrielti/mekhanikube/internal/ollama"
-	"github.com/jorgegabrielti/mekhanikube/internal/scanner"
-	"github.com/jorgegabrielti/mekhanikube/pkg/types"
+	"github.com/jorgegabrielti/nautikube/internal/analyzer"
+	"github.com/jorgegabrielti/nautikube/internal/ollama"
+	"github.com/jorgegabrielti/nautikube/internal/scanner"
+	"github.com/jorgegabrielti/nautikube/pkg/types"
 )
 
 const (
-	// Version do Mekhanikube
+	// Version do NautiKube
 	Version = "2.0.0"
 )
 
@@ -46,9 +46,9 @@ func getEnv(key, defaultValue string) string {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "mekhanikube",
-	Short: "Seu mecânico de Kubernetes com IA",
-	Long: `Mekhanikube analisa seu cluster Kubernetes, identifica problemas 
+	Use:   "nautikube",
+	Short: "Seu navegador de diagnósticos Kubernetes com IA",
+	Long: `NautiKube analisa seu cluster Kubernetes, identifica problemas 
 e explica em linguagem simples usando IA local.`,
 	SilenceUsage: true,
 }
@@ -62,9 +62,9 @@ var analyzeCmd = &cobra.Command{
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "Mostra a versão do Mekhanikube",
+	Short: "Mostra a versão do NautiKube",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("Mekhanikube v%s\n", Version)
+		fmt.Printf("NautiKube v%s\n", Version)
 		fmt.Printf("Engine: Go (nativo)\n")
 		fmt.Printf("Ollama URL: %s\n", ollamaURL)
 		fmt.Printf("Ollama Model: %s\n", ollamaModel)
@@ -73,10 +73,10 @@ var versionCmd = &cobra.Command{
 
 func initCommands() {
 	// Flags do comando analyze
-	analyzeCmd.Flags().StringVarP(&namespace, "namespace", "n", getEnv("MEKHANIKUBE_DEFAULT_NAMESPACE", ""), "Namespace específico (vazio = todos)")
+	analyzeCmd.Flags().StringVarP(&namespace, "namespace", "n", getEnv("NAUTIKUBE_DEFAULT_NAMESPACE", ""), "Namespace específico (vazio = todos)")
 	analyzeCmd.Flags().StringSliceVarP(&filter, "filter", "f", []string{}, "Filtrar por tipo de recurso (Pod, ConfigMap, etc)")
-	analyzeCmd.Flags().BoolVarP(&explain, "explain", "e", getEnv("MEKHANIKUBE_EXPLAIN", "false") == "true", "Explicar problemas usando IA")
-	analyzeCmd.Flags().StringVarP(&language, "language", "l", getEnv("MEKHANIKUBE_DEFAULT_LANGUAGE", "Portuguese"), "Idioma das explicações (Portuguese, English)")
+	analyzeCmd.Flags().BoolVarP(&explain, "explain", "e", getEnv("NAUTIKUBE_EXPLAIN", "false") == "true", "Explicar problemas usando IA")
+	analyzeCmd.Flags().StringVarP(&language, "language", "l", getEnv("NAUTIKUBE_DEFAULT_LANGUAGE", "Portuguese"), "Idioma das explicações (Portuguese, English)")
 	analyzeCmd.Flags().BoolVar(&noCache, "no-cache", false, "Forçar análise sem cache")
 
 	// Adiciona comandos à raiz

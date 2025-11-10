@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/jorgegabrielti/mekhanikube/pkg/types"
+	"github.com/jorgegabrielti/nautikube/pkg/types"
 )
 
 // Client é o cliente HTTP para comunicação com Ollama

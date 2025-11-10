@@ -1,17 +1,17 @@
-Ôªø<div align="center">
+<div align="center">
 
-<img src="assets/logo.png" alt="Mekhanikube Logo" width="800"/>
+<img src="assets/logo.png" alt="NautiKube Logo" width="800"/>
 
-**Seu mec√¢nico de Kubernetes com IA**
+**Seu mec‚nico de Kubernetes com IA**
 
-[![Licen√ßa: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Vers√£o](https://img.shields.io/badge/vers%C3%A3o-2.0.0-blue.svg)](https://github.com/jorgegabrielti/mekhanikube/releases)
+[![LicenÁa: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Vers„o](https://img.shields.io/badge/vers%C3%A3o-2.0.0-blue.svg)](https://github.com/jorgegabrielti/NautiKube/releases)
 [![Go](https://img.shields.io/badge/Go-1.21-00ADD8.svg)](https://golang.org/)
 
-Ferramenta pr√≥pria de an√°lise de clusters Kubernetes com **IA local**  
-Totalmente local ‚Ä¢ Privado ‚Ä¢ Performance otimizada ‚Ä¢ 100% em portugu√™s
+Ferramenta prÛpria de an·lise de clusters Kubernetes com **IA local**  
+Totalmente local ï Privado ï Performance otimizada ï 100% em portuguÍs
 
-[Come√ßar](#-in√≠cio-r√°pido) ‚Ä¢ [Documenta√ß√£o](docs/) ‚Ä¢ [Contribuir](CONTRIBUTING.md)
+[ComeÁar](#-inÌcio-r·pido) ï [DocumentaÁ„o](docs/) ï [Contribuir](CONTRIBUTING.md)
 
 </div>
 
@@ -22,75 +22,75 @@ Totalmente local ‚Ä¢ Privado ‚Ä¢ Performance otimizada ‚Ä¢ 100% em portugu√™s
 Escaneia seu cluster Kubernetes, identifica problemas e **explica em linguagem simples** usando IA local via Ollama.
 
 ```bash
-# Execute uma an√°lise
-docker exec mekhanikube mekhanikube analyze --explain --language Portuguese
+# Execute uma an·lise
+docker exec NautiKube NautiKube analyze --explain --language Portuguese
 ```
 
-**Exemplo de sa√≠da:**
+**Exemplo de saÌda:**
 ```
-üîç Encontrados 2 problema(s):
+?? Encontrados 2 problema(s):
 
 0: Pod default/nginx-5d5d5d5d-xxx
 - Error: Container nginx in CrashLoopBackOff
-- IA: Este container est√° reiniciando continuamente. Isso geralmente acontece 
+- IA: Este container est· reiniciando continuamente. Isso geralmente acontece 
   quando o processo principal dentro do container falha. Verifique os logs com 
-  'kubectl logs nginx-5d5d5d5d-xxx' para identificar o erro espec√≠fico.
+  'kubectl logs nginx-5d5d5d5d-xxx' para identificar o erro especÌfico.
 ```
 
 ---
 
-##  In√≠cio R√°pido
+##  InÌcio R·pido
 
-### Pr√©-requisitos
+### PrÈ-requisitos
 - Docker & Docker Compose
 - Cluster Kubernetes ativo
-- ~8GB de espa√ßo livre
+- ~8GB de espaÁo livre
 
-### Instala√ß√£o
+### InstalaÁ„o
 
 ```bash
-# 1. Clone o reposit√≥rio
-git clone https://github.com/jorgegabrielti/mekhanikube.git
-cd mekhanikube
+# 1. Clone o repositÛrio
+git clone https://github.com/jorgegabrielti/NautiKube.git
+cd NautiKube
 
-# 2. Inicie os servi√ßos
+# 2. Inicie os serviÁos
 docker-compose up -d
 
 # 3. Baixe o modelo de IA (primeira vez - ~4.7GB)
-docker exec mekhanikube-ollama ollama pull llama3.1:8b
+docker exec NautiKube-ollama ollama pull llama3.1:8b
 
 # 4. Pronto! Analisar cluster
-docker exec mekhanikube mekhanikube analyze --explain --language Portuguese
+docker exec NautiKube NautiKube analyze --explain --language Portuguese
 ```
 
-> üí° **Novo!** N√£o √© mais necess√°rio configurar backend. O Mekhanikube detecta e conecta automaticamente ao Ollama!
+> ?? **Novo!** N„o È mais necess·rio configurar backend. O NautiKube detecta e conecta automaticamente ao Ollama!
 
 ---
 
-##  Comandos √öteis
+##  Comandos ⁄teis
 
 ```bash
-# An√°lise r√°pida (sem IA)
-docker exec mekhanikube mekhanikube analyze
+# An·lise r·pida (sem IA)
+docker exec NautiKube NautiKube analyze
 
-# An√°lise completa em portugu√™s com explica√ß√µes da IA
-docker exec mekhanikube mekhanikube analyze --explain --language Portuguese
+# An·lise completa em portuguÍs com explicaÁıes da IA
+docker exec NautiKube NautiKube analyze --explain --language Portuguese
 
-# An√°lise completa em ingl√™s
-docker exec mekhanikube mekhanikube analyze --explain --language English
+# An·lise completa em inglÍs
+docker exec NautiKube NautiKube analyze --explain --language English
 
-# Analisar namespace espec√≠fico
-docker exec mekhanikube mekhanikube analyze -n kube-system --explain --language Portuguese
+# Analisar namespace especÌfico
+docker exec NautiKube NautiKube analyze -n kube-system --explain --language Portuguese
 
 # Filtrar por tipo de recurso
-docker exec mekhanikube mekhanikube analyze --filter Pod --explain --language Portuguese
-docker exec mekhanikube mekhanikube analyze --filter ConfigMap
+docker exec NautiKube NautiKube analyze --filter Pod --explain --language Portuguese
+docker exec NautiKube NautiKube analyze --filter ConfigMap
 
-# Ver vers√£o
-docker exec mekhanikube mekhanikube version
+# Ver vers„o
+docker exec NautiKube NautiKube version
 
 # Listar modelos Ollama instalados
-docker exec mekhanikube-ollama ollama list
+docker exec NautiKube-ollama ollama list
 
 # Ver status dos containers
 docker-compose ps
@@ -98,97 +98,97 @@ docker-compose ps
 
 ---
 
-##  Modelos Dispon√≠veis
+##  Modelos DisponÌveis
 
-| Modelo | Tamanho | Velocidade | Qualidade | Portugu√™s | Recomendado para |
+| Modelo | Tamanho | Velocidade | Qualidade | PortuguÍs | Recomendado para |
 |--------|---------|------------|-----------|-----------|------------------|
-| **llama3.1:8b** ‚≠ê | 4.7GB | Bom | Excelente | ‚≠ê‚≠ê‚≠ê‚≠ê‚≠ê | **Recomendado (PT-BR)** |
-| **gemma2:9b** | 5.4GB | M√©dio | Excelente | ‚≠ê‚≠ê‚≠ê‚≠ê‚≠ê | Melhor qualidade |
-| **qwen2.5:7b** | 4.7GB | R√°pido | Muito Boa | ‚≠ê‚≠ê‚≠ê‚≠ê | Velocidade |
-| **mistral** | 4.1GB | M√©dio | Boa | ‚≠ê‚≠ê‚≠ê | Uso geral |
-| **tinyllama** | 1.1GB | Muito R√°pido | B√°sica | ‚≠ê‚≠ê | Scans r√°pidos |
+| **llama3.1:8b** ? | 4.7GB | Bom | Excelente | ????? | **Recomendado (PT-BR)** |
+| **gemma2:9b** | 5.4GB | MÈdio | Excelente | ????? | Melhor qualidade |
+| **qwen2.5:7b** | 4.7GB | R·pido | Muito Boa | ???? | Velocidade |
+| **mistral** | 4.1GB | MÈdio | Boa | ??? | Uso geral |
+| **tinyllama** | 1.1GB | Muito R·pido | B·sica | ?? | Scans r·pidos |
 
-> üí° **llama3.1:8b** √© o modelo padr√£o por oferecer excelente suporte ao portugu√™s brasileiro
+> ?? **llama3.1:8b** È o modelo padr„o por oferecer excelente suporte ao portuguÍs brasileiro
 
 **Trocar modelo:**
 ```bash
 # Instalar outro modelo no Ollama
-docker exec mekhanikube-ollama ollama pull gemma2:9b
+docker exec NautiKube-ollama ollama pull gemma2:9b
 
-# Atualizar vari√°vel de ambiente e reiniciar
+# Atualizar vari·vel de ambiente e reiniciar
 # Edite .env e mude OLLAMA_MODEL=gemma2:9b
-docker-compose restart mekhanikube
+docker-compose restart NautiKube
 ```
 
 ---
 
-##  Por que Mekhanikube pr√≥prio?
+##  Por que NautiKube prÛprio?
 
-Desenvolvemos nossa pr√≥pria solu√ß√£o nativa em Go por diversos motivos:
+Desenvolvemos nossa prÛpria soluÁ„o nativa em Go por diversos motivos:
 
-| Aspecto | Antes | Agora | Benef√≠cio |
+| Aspecto | Antes | Agora | BenefÌcio |
 |---------|-------|-------|-----------|
-| **Performance** | Startup 30s | Startup <10s | ‚ö° 3x mais r√°pido |
-| **Tamanho** | ~200MB | ~80MB | üíæ 60% menor |
-| **Configura√ß√£o** | 3 passos | Autom√°tica | üéØ Plug & play |
-| **C√≥digo** | Depend√™ncia externa | C√≥digo pr√≥prio | üîß Controle total |
-| **Features** | Limitadas | Customiz√°veis | üöÄ Expans√≠vel |
-| **Manuten√ß√£o** | Dependente upstream | Independente | ‚úÖ Autonomia |
+| **Performance** | Startup 30s | Startup <10s | ? 3x mais r·pido |
+| **Tamanho** | ~200MB | ~80MB | ?? 60% menor |
+| **ConfiguraÁ„o** | 3 passos | Autom·tica | ?? Plug & play |
+| **CÛdigo** | DependÍncia externa | CÛdigo prÛprio | ?? Controle total |
+| **Features** | Limitadas | Customiz·veis | ?? ExpansÌvel |
+| **ManutenÁ„o** | Dependente upstream | Independente | ? Autonomia |
 
 **Principais vantagens:**
-- üáßüá∑ Suporte nativo ao portugu√™s (n√£o precisa flag --language)
-- üéØ Interface CLI mais simples e direta
-- ‚ö° Detec√ß√£o autom√°tica do Ollama (sem configura√ß√£o manual)
-- üí™ Performance otimizada para clusters pequenos e m√©dios
-- üîß Facilidade para adicionar novos tipos de an√°lise
+- ???? Suporte nativo ao portuguÍs (n„o precisa flag --language)
+- ?? Interface CLI mais simples e direta
+- ? DetecÁ„o autom·tica do Ollama (sem configuraÁ„o manual)
+- ?? Performance otimizada para clusters pequenos e mÈdios
+- ?? Facilidade para adicionar novos tipos de an·lise
 
 ---
 
-##  Solu√ß√£o de Problemas
+##  SoluÁ„o de Problemas
 
-**Container n√£o inicia?**
+**Container n„o inicia?**
 ```bash
-docker-compose logs mekhanikube
+docker-compose logs NautiKube
 ```
 
-**Ollama n√£o responde?**
+**Ollama n„o responde?**
 ```bash
-docker logs mekhanikube-ollama
-docker exec mekhanikube-ollama ollama list
+docker logs NautiKube-ollama
+docker exec NautiKube-ollama ollama list
 ```
 
-**Mekhanikube n√£o acessa o cluster?**
+**NautiKube n„o acessa o cluster?**
 ```bash
-docker exec mekhanikube kubectl get nodes
-docker exec mekhanikube cat /root/.kube/config_mod
+docker exec NautiKube kubectl get nodes
+docker exec NautiKube cat /root/.kube/config_mod
 ```
 
 **Erro "connection refused"?**
-Certifique-se que seu cluster Kubernetes est√° rodando:
+Certifique-se que seu cluster Kubernetes est· rodando:
 ```bash
 kubectl cluster-info
 ```
 
 ---
 
-##  Documenta√ß√£o
+##  DocumentaÁ„o
 
 -  [Arquitetura](docs/ARCHITECTURE.md) - Como funciona internamente
--  [Solu√ß√£o de Problemas](docs/TROUBLESHOOTING.md) - Problemas comuns e solu√ß√µes
--  [Perguntas Frequentes](docs/FAQ.md) - D√∫vidas mais comuns
--  [Como Contribuir](CONTRIBUTING.md) - Guia para contribui√ß√µes
+-  [SoluÁ„o de Problemas](docs/TROUBLESHOOTING.md) - Problemas comuns e soluÁıes
+-  [Perguntas Frequentes](docs/FAQ.md) - D˙vidas mais comuns
+-  [Como Contribuir](CONTRIBUTING.md) - Guia para contribuiÁıes
 
 ---
 
-##  Licen√ßa
+##  LicenÁa
 
-Licen√ßa MIT - consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
+LicenÁa MIT - consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-##  Cr√©ditos
+##  CrÈditos
 
 - [Ollama](https://ollama.ai/) - Plataforma de modelos de linguagem locais
-- [Kubernetes](https://kubernetes.io/) - Sistema de orquestra√ß√£o de cont√™ineres
+- [Kubernetes](https://kubernetes.io/) - Sistema de orquestraÁ„o de contÍineres
 
 ---
