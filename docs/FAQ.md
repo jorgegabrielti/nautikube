@@ -24,7 +24,9 @@ NautiKube é uma solução containerizada **própria** desenvolvida em Go que an
 
 ### Por que "NautiKube"?
 
-**Mekhani** (Grego: μηχανικός) = mecânico + **kube** (Kubernetes) = Seu mecânico Kubernetes!
+**Nauti** (Grego: ναυτικός) = náutico/navegador + **kube** (Kubernetes) = Seu navegador Kubernetes!
+
+O nome reflete a natureza da ferramenta: um explorador/navegador de diagnósticos, não um reparador. Alinha-se com a temática náutica do Kubernetes (kubernetes = timoneiro em grego).
 
 ### É gratuito?
 
