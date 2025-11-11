@@ -2,7 +2,7 @@
 
 <img src="assets/logo.png" alt="NautiKube Logo" width="800"/>
 
-**Diagnóstico inteligente para Kubernetes**
+**Diagnóstico inteligente para o seu Cluster Kubernetes**
 
 [![Licença: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Versão](https://img.shields.io/badge/vers%C3%A3o-2.0.0-blue.svg)](https://github.com/jorgegabrielti/nautikube/releases)
