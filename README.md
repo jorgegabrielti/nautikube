@@ -43,9 +43,11 @@ docker exec nautikube nautikube analyze --explain
 
 ### Pré-requisitos
 - Docker & Docker Compose
-- Cluster Kubernetes ativo (Docker Desktop, Minikube, Kind, etc)
+- Cluster Kubernetes ativo (Docker Desktop, Minikube, Kind, EKS, etc)
 - ~8GB de espaço livre
 - kubeconfig configurado em `~/.kube/config`
+
+> 📋 **Ambientes Especiais**: Usando EKS ou proxy corporativo? Veja o [Guia de Configuração de Ambientes](docs/SETUP-ENVIRONMENTS.md)
 
 ### Instalação
 
