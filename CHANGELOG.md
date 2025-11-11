@@ -5,6 +5,33 @@ Todas as mudanças notáveis do NautiKube serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 e este projeto segue [Versionamento Semântico](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2025-11-11
+
+### ✨ Adicionado
+- Suporte automático para ambientes corporativos (EKS + Proxy)
+- Detecção automática de ambiente no entrypoint do container
+- AWS CLI instalado no container nautikube para autenticação EKS
+- Montagem automática de `~/.aws` para clusters EKS
+- Montagem automática de `~/.kube/config` para todos ambientes
+- Documentação específica para ambientes corporativos
+
+### 🔧 Melhorado
+- **Zero configuração** - funciona direto após `docker-compose up -d`
+- Detecção inteligente: VM local vs EKS vs Proxy corporativo
+- Configuração de proxy e certificados apenas quando necessário (opcional)
+- README simplificado com foco em "clone e rode"
+- Healthchecks ativos para ambos containers
+
+### 🐛 Corrigido
+- Problema de certificados SSL em ambientes com proxy corporativo
+- Autenticação AWS para clusters EKS
+- Montagem de volumes mais robusta e tolerante a falhas
+
+### 📚 Documentação
+- Guia completo de ambientes (VM local vs EKS/Proxy)
+- Documentação de troubleshooting para problemas comuns
+- Exemplos de uso para diferentes cenários
+
 ## [2.0.1] - 2025-01-10
 
 ### 🎨 Rebranding
