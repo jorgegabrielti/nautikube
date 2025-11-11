@@ -50,8 +50,8 @@ docker exec nautikube nautikube analyze --explain
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/jorgegabrielti/NautiKube.git
-cd NautiKube
+git clone https://github.com/jorgegabrielti/nautikube.git
+cd nautikube
 
 # 2. Inicie os serviços
 docker-compose up -d
@@ -63,7 +63,7 @@ docker exec nautikube-ollama ollama pull llama3.1:8b
 docker exec nautikube nautikube analyze --explain
 ```
 
-> 💡 **Novo!** Não é mais necessário configurar backend. O NautiKube detecta e conecta automaticamente ao Ollama!
+> 💡 **Novo!** Não é mais necessário configurar backend. O nautikube detecta e conecta automaticamente ao Ollama!
 
 ---
 
@@ -110,16 +110,16 @@ docker-compose ps
 **Trocar modelo:**
 ```bash
 # Instalar outro modelo no Ollama
-docker exec NautiKube-ollama ollama pull gemma2:9b
+docker exec nautikube-ollama ollama pull gemma2:9b
 
 # Atualizar variável de ambiente e reiniciar
 # Edite .env e mude OLLAMA_MODEL=gemma2:9b
-docker-compose restart NautiKube
+docker-compose restart nautikube
 ```
 
 ---
 
-##  Por que NautiKube próprio?
+##  Por que nautikube próprio?
 
 Desenvolvemos nossa própria solução nativa em Go por diversos motivos:
 
