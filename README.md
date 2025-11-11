@@ -56,8 +56,8 @@ docker exec nautikube nautikube analyze --explain
 git clone https://github.com/jorgegabrielti/nautikube.git
 cd nautikube
 
-# 2. Inicie com detecção automática de ambiente
-./start.sh
+# 2. Inicie os containers (detecção automática de ambiente)
+docker-compose up -d
 
 # 3. Baixe o modelo de IA (primeira vez - ~4.7GB)
 docker exec nautikube-ollama ollama pull llama3.1:8b
@@ -66,10 +66,13 @@ docker exec nautikube-ollama ollama pull llama3.1:8b
 docker exec nautikube nautikube analyze --explain
 ```
 
-> 🔥 **Novo!** O script `start.sh` detecta automaticamente se você está usando EKS, proxy corporativo ou Kubernetes local!
+> 🔥 **Automático!** Funciona em VM local, EKS, com ou sem proxy corporativo. Zero configuração!
 
-**Ou use o modo manual tradicional:**
+**Para EKS ou Proxy Corporativo:**
 ```bash
+# Apenas crie um .env com as configurações específicas (opcional)
+cp .env.example .env
+# Edite .env se necessário (veja docs/SETUP-ENVIRONMENTS.md)
 docker-compose up -d
 ```
 

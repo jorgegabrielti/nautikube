@@ -4,6 +4,15 @@ set -e
 echo "⚓ NautiKube - Seu navegador de diagnósticos Kubernetes"
 echo ""
 
+# Detectar tipo de ambiente
+CLUSTER_TYPE="local"
+if [ -d "/root/.aws" ] && [ -f "/usr/bin/aws" ]; then
+    CLUSTER_TYPE="eks"
+    echo "🔍 Ambiente detectado: EKS (AWS)"
+else
+    echo "🔍 Ambiente detectado: Kubernetes Local"
+fi
+
 # Ajusta kubeconfig para funcionar dentro do container
 if [ -f "/root/.kube/config" ]; then
     echo "📋 Configurando acesso ao cluster..."
@@ -14,6 +23,15 @@ if [ -f "/root/.kube/config" ]; then
     
     export KUBECONFIG=/root/.kube/config_mod
     echo "✅ Kubeconfig configurado"
+    
+    # Se EKS, verifica credenciais AWS
+    if [ "$CLUSTER_TYPE" = "eks" ]; then
+        if [ -d "/root/.aws" ]; then
+            echo "✅ Credenciais AWS disponíveis"
+        else
+            echo "⚠️  Credenciais AWS não encontradas (monte ~/.aws)"
+        fi
+    fi
 else
     echo "⚠️  Kubeconfig não encontrado em /root/.kube/config"
     echo "   O container pode não conseguir acessar o cluster"
