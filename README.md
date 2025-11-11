@@ -145,19 +145,19 @@ Desenvolvemos nossa própria solução nativa em Go por diversos motivos:
 
 **Container não inicia?**
 ```bash
-docker-compose logs NautiKube
+docker-compose logs nautikube
 ```
 
 **Ollama não responde?**
 ```bash
-docker logs NautiKube-ollama
-docker exec NautiKube-ollama ollama list
+docker logs nautikube-ollama
+docker exec nautikube-ollama ollama list
 ```
 
-**NautiKube não acessa o cluster?**
+**nautikube não acessa o cluster?**
 ```bash
-docker exec NautiKube kubectl get nodes
-docker exec NautiKube cat /root/.kube/config_mod
+docker exec nautikube kubectl get nodes
+docker exec nautikube cat /root/.kube/config_mod
 ```
 
 **Erro "connection refused"?**
