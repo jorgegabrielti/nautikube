@@ -66,15 +66,32 @@ docker exec nautikube-ollama ollama pull llama3.1:8b
 docker exec nautikube nautikube analyze --explain
 ```
 
-> 🔥 **Automático!** Funciona em VM local, EKS, com ou sem proxy corporativo. Zero configuração!
+> 🔥 **Automático!** Funciona direto em Kubernetes local (minikube, kind, k3s, Docker Desktop).
 
-**Para EKS ou Proxy Corporativo:**
+**⚠️ Ambiente Corporativo (EKS/Proxy)?**
+Se você está atrás de proxy corporativo ou usando EKS:
+- ❌ **Erro de certificado** ao baixar modelos?
+- ❌ **Erro de AWS credentials**?
+
+👉 **[Configure o .env primeiro](docs/CORPORATE-ENVIRONMENT.md)** antes de rodar `docker-compose up -d`
+
+<details>
+<summary>📖 Configuração rápida para EKS/Proxy</summary>
+
 ```bash
-# Apenas crie um .env com as configurações específicas (opcional)
+# 1. Exporte certificados corporativos (macOS)
+security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain > ~/corporate-certs.pem
+
+# 2. Configure o .env
 cp .env.example .env
-# Edite .env se necessário (veja docs/SETUP-ENVIRONMENTS.md)
+# Edite e descomente: CORPORATE_CERT_PATH e/ou AWS_CREDENTIALS_PATH
+
+# 3. Suba os containers
 docker-compose up -d
 ```
+
+Veja [documentação completa](docs/SETUP-ENVIRONMENTS.md) para detalhes.
+</details>
 
 > 💡 **Novo!** Não é mais necessário configurar backend. O nautikube detecta e conecta automaticamente ao Ollama!
 
