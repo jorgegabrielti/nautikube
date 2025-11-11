@@ -56,14 +56,21 @@ docker exec nautikube nautikube analyze --explain
 git clone https://github.com/jorgegabrielti/nautikube.git
 cd nautikube
 
-# 2. Inicie os serviços (funciona em Windows, Mac e Linux)
-docker-compose up -d
+# 2. Inicie com detecção automática de ambiente
+./start.sh
 
 # 3. Baixe o modelo de IA (primeira vez - ~4.7GB)
 docker exec nautikube-ollama ollama pull llama3.1:8b
 
 # 4. Pronto! Analisar cluster
 docker exec nautikube nautikube analyze --explain
+```
+
+> 🔥 **Novo!** O script `start.sh` detecta automaticamente se você está usando EKS, proxy corporativo ou Kubernetes local!
+
+**Ou use o modo manual tradicional:**
+```bash
+docker-compose up -d
 ```
 
 > 💡 **Novo!** Não é mais necessário configurar backend. O nautikube detecta e conecta automaticamente ao Ollama!
