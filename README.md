@@ -43,8 +43,9 @@ docker exec nautikube nautikube analyze --explain
 
 ### Pré-requisitos
 - Docker & Docker Compose
-- Cluster Kubernetes ativo
+- Cluster Kubernetes ativo (Docker Desktop, Minikube, Kind, etc)
 - ~8GB de espaço livre
+- kubeconfig configurado em `~/.kube/config`
 
 ### Instalação
 
@@ -53,7 +54,7 @@ docker exec nautikube nautikube analyze --explain
 git clone https://github.com/jorgegabrielti/nautikube.git
 cd nautikube
 
-# 2. Inicie os serviços
+# 2. Inicie os serviços (funciona em Windows, Mac e Linux)
 docker-compose up -d
 
 # 3. Baixe o modelo de IA (primeira vez - ~4.7GB)
@@ -164,6 +165,14 @@ docker exec nautikube cat /root/.kube/config_mod
 Certifique-se que seu cluster Kubernetes está rodando:
 ```bash
 kubectl cluster-info
+```
+
+**Erro "invalid volume specification" no Mac/Linux?**
+O docker-compose agora usa `${HOME}/.kube/config` que funciona em todos os sistemas operacionais.
+Se seu kubeconfig está em outro local, crie um arquivo `.env`:
+```bash
+# .env
+HOME=/seu/caminho/customizado
 ```
 
 ---

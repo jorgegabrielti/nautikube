@@ -27,7 +27,7 @@ services:
       ollama:
         condition: service_healthy
     volumes:
-      - ${KUBECONFIG_PATH:-C:/Users/${USERNAME}/.kube/config}:/root/.kube/config:ro
+      - ${HOME}/.kube/config:/root/.kube/config:ro
     environment:
       - KUBECONFIG=/root/.kube/config_mod
     network_mode: ${NETWORK_MODE:-host}
