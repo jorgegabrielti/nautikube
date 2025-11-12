@@ -5,6 +5,20 @@ Todas as mudanças notáveis do NautiKube serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 e este projeto segue [Versionamento Semântico](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Adicionado
+- Suporte opcional para aceleração GPU NVIDIA
+- Workflow automatizado de release com GitHub Actions
+- Script PowerShell para criar releases localmente
+- Documentação completa de setup de GPU (`docs/GPU-SETUP.md`)
+- Build automático de binários para múltiplas plataformas (Linux, macOS, Windows)
+- Publicação automática de Docker images no GitHub Container Registry
+
+### Modificado
+- Arquitetura de GPU: CPU por padrão, GPU opcional via `docker-compose.gpu.yml`
+- Processo de release totalmente automatizado
+
 ## [2.0.2] - 2025-11-11
 
 ### ✨ Adicionado

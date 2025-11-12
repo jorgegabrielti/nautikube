@@ -97,6 +97,32 @@ docker-compose ps
 
 ---
 
+## 🚀 Aceleração com GPU (Opcional)
+
+Se você tem uma GPU NVIDIA, pode acelerar as análises com IA em **até 10x**!
+
+```bash
+# 1. Verificar se sua GPU está disponível
+wsl nvidia-smi
+
+# 2. Usar docker-compose com GPU (mantém CPU como padrão)
+docker-compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
+
+# 3. Verificar se está usando GPU
+docker exec nautikube-ollama nvidia-smi
+```
+
+**Performance esperada (RTX 3050):**
+- ⚡ Análises 5-10x mais rápidas
+- ✅ 95% menos timeouts
+- 💾 Uso de 2-3GB VRAM
+
+> 💡 **Por padrão usa CPU** - GPU é totalmente opcional e não interfere em ambientes sem NVIDIA
+
+📖 **Guia completo**: [docs/GPU-SETUP.md](docs/GPU-SETUP.md)
+
+---
+
 ##  Modelos Disponíveis
 
 | Modelo | Tamanho | Velocidade | Qualidade | Português | Recomendado para |
@@ -181,8 +207,11 @@ HOME=/seu/caminho/customizado
 ##  Documentação
 
 -  [Arquitetura](docs/ARCHITECTURE.md) - Como funciona internamente
+-  [Workflow de Desenvolvimento](docs/WORKFLOW.md) - GitHub Flow e boas práticas
 -  [Solução de Problemas](docs/TROUBLESHOOTING.md) - Problemas comuns e soluções
 -  [Perguntas Frequentes](docs/FAQ.md) - Dúvidas mais comuns
+-  [Setup de GPU](docs/GPU-SETUP.md) - Aceleração com NVIDIA GPU
+-  [Processo de Release](docs/RELEASE.md) - Como criar novas versões
 -  [Como Contribuir](CONTRIBUTING.md) - Guia para contribuições
 
 ---
