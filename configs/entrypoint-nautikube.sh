@@ -104,7 +104,7 @@ else
 fi
 
 echo ""
-echo "🚀 NautiKube v2.0.3 pronto!"
+echo "🚀 NautiKube v2.0.4 pronto!"
 echo "   Uso: docker exec nautikube nautikube analyze --explain"
 echo ""
 
