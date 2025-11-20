@@ -54,6 +54,7 @@ secrets/
 *.dll
 *.so
 *.dylib
+nautikube
 mekhanikube
 /cmd/mekhanikube/mekhanikube
 
@@ -64,6 +65,11 @@ mekhanikube
 *.out
 coverage.txt
 coverage.html
+
+# Test files temporários
+*test*.yaml
+resultado-*.txt
+test-pods.yaml
 
 # Dependency directories (vendoring)
 vendor/
