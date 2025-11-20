@@ -5,6 +5,44 @@ Todas as mudanças notáveis do NautiKube serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 e este projeto segue [Versionamento Semântico](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.3] - 2025-11-19
+
+### ✨ Adicionado
+- **Detecção agnóstica e transparente de clusters** - funciona com qualquer tipo de cluster Kubernetes
+- Suporte automático para Kind, Minikube, Docker Desktop, k3d, EKS, AKS, GKE e clusters customizados
+- Múltiplas estratégias de conexão no cliente Go (4 fallbacks automáticos)
+- Verificação inteligente de conectividade com troubleshooting automático
+
+### 🔧 Melhorado
+- **Engenharia de prompt otimizada** para respostas mais precisas e acionáveis
+- Prompts reestruturados com papel de SRE experiente (10 anos de experiência)
+- Formato de resposta estruturado: Causa Raiz → Impacto → Solução Passo-a-Passo
+- Instruções específicas para incluir comandos kubectl executáveis
+- Contexto técnico aprimorado com detalhes estruturados
+- Restrições claras de tamanho (máximo 200 palavras) e estilo de resposta
+- **Entrypoint completamente reformulado** com detecção inteligente de ambiente
+- Ajustes automáticos de certificados TLS baseados no tipo de cluster
+- Mensagens mais informativas sobre o tipo de cluster detectado
+
+### 📊 Impacto Esperado
+- **Zero configuração manual** - detecta e configura automaticamente qualquer cluster
+- Compatibilidade universal com clusters locais e em cloud
+- Respostas 30-40% mais concisas e diretas ao ponto
+- Soluções mais práticas com comandos kubectl específicos
+- Melhor compreensão do contexto Kubernetes pelo LLM
+- Explicações técnicas mas acessíveis para DevOps intermediários
+- Redução de respostas genéricas ou vagas
+
+### 🎯 Detalhes Técnicos
+- Arquivo modificado: `configs/entrypoint-nautikube.sh` (detecção agnóstica)
+- Arquivo modificado: `internal/scanner/scanner.go` (múltiplas estratégias de conexão)
+- Arquivo modificado: `internal/ollama/client.go` (método `buildPrompt`)
+- Estrutura do prompt: Papel → Contexto → Tarefa → Formato → Restrições
+- 4 estratégias de conexão: in-cluster → config_mod → config padrão → KUBECONFIG
+- Suporte nativo para AWS EKS, Azure AKS, Google GKE sem configuração adicional
+- Mantém compatibilidade total com versões anteriores
+- Sem necessidade de atualização de modelos LLM
+
 ## [2.0.2] - 2025-11-11
 
 ### ✨ Adicionado

@@ -25,7 +25,7 @@ func New(baseURL, model string) *Client {
 		baseURL: baseURL,
 		model:   model,
 		httpClient: &http.Client{
-			Timeout: 120 * time.Second, // LLMs podem demorar
+			Timeout: 300 * time.Second, // 5 minutos - LLMs podem demorar, especialmente no primeiro uso
 		},
 	}
 }
@@ -75,24 +75,45 @@ func (c *Client) Explain(ctx context.Context, problem *types.Problem, language s
 func (c *Client) buildPrompt(problem *types.Problem, language string) string {
 	detailsStr := ""
 	if len(problem.Details) > 0 {
-		detailsStr = "\nDetalhes adicionais:\n"
+		detailsStr = "\nDETALHES TÉCNICOS:\n"
 		for _, detail := range problem.Details {
 			detailsStr += fmt.Sprintf("- %s\n", detail)
 		}
 	}
 
-	return fmt.Sprintf(`Você é um especialista em Kubernetes. Explique o seguinte problema de forma simples e forneça uma solução prática em português brasileiro.
+	// Prompt otimizado com estrutura clara e instruções específicas
+	return fmt.Sprintf(`Você é um SRE (Site Reliability Engineer) especialista em Kubernetes com 10 anos de experiência em troubleshooting de clusters de produção.
 
-Tipo de recurso: %s
-Namespace: %s
-Nome: %s
-Erro: %s%s
+CONTEXTO DO PROBLEMA:
+- Tipo de Recurso: %s
+- Namespace: %s
+- Nome do Recurso: %s
+- Erro Detectado: %s%s
 
-Forneça:
-1. Uma explicação simplificada do problema
-2. Passos claros para resolver
+TAREFA:
+Analise este problema do Kubernetes e forneça uma resposta estruturada e prática em português brasileiro.
 
-Seja conciso e direto.`,
+FORMATO OBRIGATÓRIO DA RESPOSTA:
+
+1. CAUSA RAIZ (máximo 2 linhas):
+   Explique de forma técnica mas clara o que causou este problema específico.
+
+2. IMPACTO (1 linha):
+   Descreva o impacto deste problema no cluster e nas aplicações.
+
+3. SOLUÇÃO PASSO-A-PASSO (3-5 passos numerados):
+   Liste comandos kubectl específicos e ações práticas para resolver.
+   Exemplo: "kubectl logs <pod> -n <namespace>" ou "kubectl describe pod <nome>"
+
+RESTRIÇÕES:
+- Máximo 200 palavras no total
+- Use comandos kubectl reais e executáveis quando aplicável
+- Seja técnico mas compreensível para DevOps intermediários
+- Evite explicações genéricas - seja específico para ESTE erro
+- Não use jargões desnecessários ou termos em inglês sem tradução
+- Priorize soluções que podem ser executadas imediatamente
+
+IMPORTANTE: Responda APENAS com o conteúdo estruturado acima, sem introduções ou conclusões adicionais.`,
 		problem.Kind,
 		problem.Namespace,
 		problem.Name,

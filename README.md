@@ -5,7 +5,7 @@
 **Diagnóstico inteligente para o seu Cluster Kubernetes**
 
 [![Licença: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.0.2-blue.svg?cacheSeconds=0)](https://github.com/jorgegabrielti/nautikube/releases)
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.0.3-blue.svg?cacheSeconds=0)](https://github.com/jorgegabrielti/nautikube/releases)
 [![Go](https://img.shields.io/badge/Go-1.21-00ADD8.svg)](https://golang.org/)
 
 Ferramenta própria de análise de clusters Kubernetes com **IA local**  
@@ -43,9 +43,18 @@ docker exec nautikube nautikube analyze --explain
 
 ### Pré-requisitos
 - Docker & Docker Compose
-- Cluster Kubernetes ativo (Docker Desktop, Minikube, Kind, EKS, etc)
+- Cluster Kubernetes ativo (qualquer tipo - veja suporte abaixo)
 - ~8GB de espaço livre
 - kubeconfig configurado em `~/.kube/config`
+
+### Clusters Suportados
+✅ Docker Desktop • Kind • Minikube • k3d • MicroK8s  
+✅ AWS EKS • Azure AKS • Google GKE  
+✅ Bare-metal • Kubeadm • OpenShift • Rancher  
+✅ **Qualquer distribuição Kubernetes padrão**
+
+> 🎯 **Conexão 100% Agnóstica** - Detecta e configura automaticamente qualquer tipo de cluster!  
+> 📖 [Saiba mais sobre a conexão agnóstica](docs/AGNOSTIC-CONNECTION.md)
 
 ### Instalação
 
@@ -65,7 +74,7 @@ docker exec nautikube nautikube analyze --explain
 **❌ Erro de certificado ao baixar modelo?**  
 👉 Você está atrás de proxy corporativo. [Solução rápida aqui](docs/CORPORATE-ENVIRONMENT.md)
 
-> 💡 **Novo!** Não é mais necessário configurar backend. O nautikube detecta e conecta automaticamente ao Ollama!
+> 💡 **Novo v2.0.3!** Detecção agnóstica e transparente de clusters - funciona com qualquer tipo sem configuração!
 
 ---
 
